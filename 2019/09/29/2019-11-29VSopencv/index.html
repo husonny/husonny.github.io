@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Visual Studio 2019配置OpenCV教程 - Sonny的博客 | Sonny&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://easy4me.cn/2019/09/29/2019-11-29VSopencv/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sonny&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('20190822-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#OpenCV" title="OpenCV">OpenCV</a>
+                        
+                    </div>
+                    <h1>Visual Studio 2019配置OpenCV教程</h1>
+                    <h2 class="subheading">&#34;超详细的Visual Studio 2019配置OpenCV教程的教程～&#34;</h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2019-09-29
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h5 id="第一步：下载opencv安装包并解压"><a href="#第一步：下载opencv安装包并解压" class="headerlink" title="第一步：下载opencv安装包并解压"></a>第一步：下载opencv安装包并解压</h5><p>1.官网下载安装包，选择需要的版本下载。<a href="https://opencv.org/releases.html#" target="_blank" rel="noopener">https://opencv.org/releases.html#</a> </p>
+<p>2.找到下载好的安装包，双击运行，会出现Extract to: ，选择解压的路径即可。（这里我安装的是目前的最新版本opencv-4.1.2-vc14_vc15.exe）</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128190937302.png" alt="image-20191128190937302"></p>
+<p>解压完成后会出现以下文件：</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128190838769.png" alt="image-20191128190838769"></p>
+<h5 id="第二步：配置系统变量（WIN10）"><a href="#第二步：配置系统变量（WIN10）" class="headerlink" title="第二步：配置系统变量（WIN10）"></a>第二步：配置系统变量（WIN10）</h5><p>1.将你解压的opencv文件夹中（这里我安装的是在D盘）的***opencv\build\x64\vc14\bin路径添加到当中。选择了vc14这个子文件夹（也可以选择15）。</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128192659627.png" alt="image-20191128192659627"></p>
+<p>复制该路径 D:\OpenCV\opencv\build\x64\vc14</p>
+<p>2.找到系统变量中的path变量，双击它，点击新建，找到此电脑，右键-&gt;属性-&gt;高级系统设置-&gt;环境变量。</p>
+<p>在下图的环境变量页面的系统变量中，找到Path，双击，进入编辑环境变量，点击新建，粘贴之前复制的路径 D:\OpenCV\opencv\build\x64\vc14。</p>
+<p>确定。</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128192819745.png" alt="image-20191128192819745"></p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128192922860.png" alt="image-20191128192922860"></p>
+<h5 id="第三步：文件配置"><a href="#第三步：文件配置" class="headerlink" title="第三步：文件配置"></a>第三步：文件配置</h5><p>注意：以下文件后面的数字代表的是版本号，不同版本的OpenCV对应的数字不同，但是进行的操作是相同的</p>
+<p>1.将bin目录下面的opencv_world412.dll和opencv_world412d.dll文件复制到C:\Windows\SysWOW64这个文件夹里面即可</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128203458873.png" alt="image-20191128203458873"></p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128202518435.png" alt="image-20191128202518435"></p>
+<p>2.将bin目录里面的opencv_ffmpeg412_64.dll复制到C:\Windows\System32这个文件夹里面</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128203525439.png" alt="image-20191128203525439"></p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128202713860.png" alt="image-20191128202713860"></p>
+<h5 id="第四步：对Visual-Studio2019属性管理器进行配置"><a href="#第四步：对Visual-Studio2019属性管理器进行配置" class="headerlink" title="第四步：对Visual Studio2019属性管理器进行配置"></a>第四步：对Visual Studio2019属性管理器进行配置</h5><p>注意：以下文件后面的数字代表的是版本号，不同版本的OpenCV对应的数字不同，但是进行的操作是相同的</p>
+<p>1.新建一个项目</p>
+<p>2.进入属性管理器，菜单栏-&gt;视图-&gt;其他窗口-&gt;属性管理器</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128210917796.png" alt="image-20191128210917796"></p>
+<p>3.对Debug|X64进行配置，右键Microsoft.Cpp.x64.user，点击属性</p>
+<p>注意：如果在Debug|X64里面没有Microsoft.Cpp.x64.user，请自行右键Debug|X64文件夹，并添加新项目属性表，填写该文件名（复制粘贴即可）</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205034037.png" alt="image-20191128205034037"></p>
+<p>4.这里我们对属性中的 VC++目录-&gt;包含目录和VC++目录-&gt;库目录进行添加相关路径，对 链接器-&gt;输入-&gt;附加依赖项进行添加相关路径</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205454718.png" alt="image-20191128205454718"></p>
+<p>5.包含目录中加入（以下目录要视自身安装的OpenCV路径做出相应更改）</p>
+<p>D:\OpenCV\opencv\build\include</p>
+<p>D:\OpenCV\opencv\build\include\opencv</p>
+<p>D:\OpenCV\opencv\build\include\opencv2</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205727320.png" alt="image-20191128205727320"></p>
+<p>库目录中加入</p>
+<p>D:\OpenCV\opencv\build\x64\vc14\lib</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205626115.png" alt="image-20191128205626115"></p>
+<p>6.链接器-&gt;输入-&gt;附加依赖项中加入</p>
+<p>opencv_world412d.lib</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205823173.png" alt="image-20191128205823173"></p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128205903180.png" alt="image-20191128205903180"></p>
+<p>7.（可选操作）release|X64的配置为可选项，下面的这一步可以不做，因为编译时只用到了debug，release是发布程序时才会用到。 </p>
+<p>对Release|X64进行配置，右键Microsoft.Cpp.x64.user,点击属性</p>
+<p>链接器-&gt;输入-&gt;附加依赖项中加入</p>
+<p>opencv_world412.lib</p>
+<p>注意：如果是opencv其他版本，只需要将将上述的依赖项文件稍作修改即可；eg：如果是opencv版本4.1.2，只需要将dll名字改为opencv_world412d.lib即可，依次类推！</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128211046120.png" alt="image-20191128211046120"></p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128211108555.png" alt="image-20191128211108555"></p>
+<h5 id="第五步：勾选微软符号服务器（可选操作）"><a href="#第五步：勾选微软符号服务器（可选操作）" class="headerlink" title="第五步：勾选微软符号服务器（可选操作）"></a>第五步：勾选微软符号服务器（可选操作）</h5><p>其实到上一步已经配好了，有时候会出现缺失各种dll文件的错误，选择勾选微软符号服务器来下载缺失的dll文件</p>
+<p>1.左键调试-&gt;选项-&gt;常规 勾选启动源服务器支持</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128211828670.png" alt="image-20191128211828670"></p>
+<p>2.左键调试-&gt;选项-&gt;符号 勾选微软符号服务器，在下方可以选择缓存符号的存储目录，在这里我选择了默认文件夹。</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128211927825.png" alt="image-20191128211927825"></p>
+<p>注意：可以用一个文件夹来缓存下载的dll文件，只是第一次加载，不用担心。或者，你也可以等加载完了之后，再把之前勾选的取消掉，也没有问题。 </p>
+<p>3.解决方案平台换成X64</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128212227915.png" alt="image-20191128212227915"></p>
+<h5 id="第六步：测试"><a href="#第六步：测试" class="headerlink" title="第六步：测试"></a>第六步：测试</h5><p>添加新建项，输入下方测试代码并运行。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;opencv2/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;opencv2/imgproc/imgproc.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Mat srcImage = imread(<span class="string">"0.bmp"</span>); <span class="comment">//读取图片0.bmp，这里使用的是相对路径</span></span><br><span class="line">	imshow(<span class="string">"原图腐蚀操作"</span>,srcImage);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*进行腐蚀操作*/</span></span><br><span class="line">	Mat element = getStructuringElement(MORPH_RECT, Size(<span class="number">15</span>, <span class="number">15</span>));</span><br><span class="line">	Mat dstImage;</span><br><span class="line">	erode(srcImage, dstImage, element);</span><br><span class="line">	<span class="comment">/*erode函数对图片进行腐蚀操作*/</span></span><br><span class="line">	</span><br><span class="line">	imshow(<span class="string">"效果图腐蚀操作"</span>, dstImage);</span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128212627440.png" alt="image-20191128212627440"></p>
+<p>输出结果：</p>
+<p><img src="/2019/09/29/2019-11-29VSopencv/image-20191128212552377.png" alt="image-20191128212552377"></p>
+<p>————————————————<br>本文参考CSDN博主「King_LJames」的原创文章，遵循 CC 4.0 BY-SA 版权协议。链接：<a href="https://blog.csdn.net/qq_41175905/article/details/80560429" target="_blank" rel="noopener">https://blog.csdn.net/qq_41175905/article/details/80560429</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/08/22/2019-8-22-hexo-termux/" data-toggle="tooltip" data-placement="top" title="Termux+Hexo搭建Github个人博客">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#OpenCV" title="OpenCV">OpenCV</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://github.com/kasuganosoras/cxk-ball" target="_blank">CXK plays basketball</a></li>
+                    
+                        <li><a href="http://github.com/kelseyhightower/nocode" target="_blank">Nocode</a></li>
+                    
+                        <li><a href="https://github.com/maebert/themostdangerouswritingapp" target="_blank">写作者的噩梦源泉</a></li>
+                    
+                        <li><a href="https://github.com/bestony/logoly" target="_blank">Logoly</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/sonnyshu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/5628004026">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/husonny">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sonny&#39;s Blog 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://easy4me.cn">Sonny</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=husonny&repo=husonny.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://easy4me.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
