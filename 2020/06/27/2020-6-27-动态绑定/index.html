@@ -13,11 +13,11 @@
 
     <title>
         
-          Wellcome To Sonny&#39;s Blog - Sonny的博客 | Sonny&#39;s Blog
+          动态绑定 - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2019/08/20/hello-world/">
+    <link rel="canonical" href="http://easy4me.cn/2020/06/27/2020-6-27-动态绑定/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -87,14 +87,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -162,14 +162,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
-                    <h1>Wellcome To Sonny&#39;s Blog</h1>
-                    <h2 class="subheading">&#34;Hello World, Hello Blog&#34;</h2>
+                    <h1>动态绑定</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2019-08-20
+                        2020-06-27
                     </span>
                 </div>
             </div>
@@ -188,20 +188,15 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <blockquote>
-<p>You’ll Never Wolk Alone .</p>
-</blockquote>
-<hr>
-<p>Welcome to <a href="https://easy4me.cn/">easy4me.cn</a>! This is my private blog. </p>
-<p>If you have any problems , please <a href="863634649@qq.com">Email</a> me or ask me on <a href="https://github.com/husonny/" target="_blank" rel="noopener">GitHub</a>.</p>
-<p>This blog is based on <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>, you can get more info on <a href="https://github.com/hexojs/awesome-hexo" target="_blank" rel="noopener">Hexojs</a>.</p>
-<p>Ported Hexo Theme of Hux Blog by <a href="https://github.com/Kaijun/" target="_blank" rel="noopener">kaijun</a>, Thank <a href="https://github.com/Huxpro/" target="_blank" rel="noopener">Huxpro</a> for designing such a flawless theme.</p>
-<hr>
-<p>作为一个爱折腾的人（装B男孩），若是把 Blog 挂在大众博客网站上就太没意思了。一来大部分博客服务都太丑啦，二就是太死板缺乏情调，无法体现我的 “生命不止，折腾不休”的人生精髓。</p>
-<p>技术小白，不一定要把 Blog 玩的多花里胡哨，前提得是要有这玩意儿。</p>
-<p>再来说说搭建过程，当然是一切问度娘啦，不停的百度逛各大技术博客，终于让我能够再 N 多次提交调整后，硬生生给整出来了，emmmmmm……详细历程，此处省略一万字……</p>
-<p>要问我自建 Blog 有什么好处，当让是我把我去年注册的域名（easy4me.cn）给用上了，不然留着吃灰多心痛。Markdown 可以带来极致奢华的写作体验。然后就是可玩性很高，啥都可以自定义。</p>
-<p>——Sonny于2019.8</p>
+                <h2 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h2><p>面向对象程序设计(OOP)的核心是数据抽象、继承和动态绑定。通过数据抽象，我们可以将类的接口与实现分离。使用继承，可以定义相似的类型并对其相似关系建模。使用动态绑定，可以在一定程度上忽略相似类型的区别，从而以统一的方式使用他们的对象。</p>
+<p>那么啥叫动态绑定呢？在一本名为《图解数据结构——使用C++》中是这样介绍的：</p>
+<p>多态提供了继承，对于同样的行为，可以赋予不同的实际操作，所以又称为“同名异式”，实现多态性的手段又称为动态绑定，广义来说类继承就是一种多态，只要在继承后，新增或改变基类状态和行为，就达到了类多态的效果。</p>
+<p>“绑定”是指一个变量的名称、地址属性及其值建立某种程度的关联，而所发生的的时间就称之为“绑定时间”。动态绑定就是指绑定时间发生在程序执行时。</p>
+<p>动态绑定的作用：</p>
+<p>通过使用动态绑定，可以使用同一段代码分别处理基类和派生类的对象。函数的运行版本有调用时传入的实参决定，即在运行时选择函数的版本，因此动态绑定有时也称其为 <em>运行时绑定</em>。使用基类的引用（或指针）调用一个虚函数是将会发生动态绑定。</p>
+<p>通过以下实例了解动态绑定的使用过程（该程序代码引用自 <code>C++ primer 第5版</code> P527）:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义基类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//声明一个虚函数</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义派生类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//重写继承来自父类的虚函数</span></span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span> oeverride</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">print_total</span><span class="params">(ostream &amp;os, <span class="keyword">const</span> Quote &amp;item, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//根据传入item形参的对象类型选择调用Quote::net_price 或者 Bulk_quote::net_price</span></span><br><span class="line">    <span class="keyword">double</span> ret = item.net_price(n);</span><br><span class="line">    os &lt;&lt; <span class="string">" ISBN: "</span> &lt;&lt; item.isbn() &lt;&lt; <span class="string">" #sold: "</span> &lt;&lt; n &lt;&lt; ret &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//函数的调用</span></span><br><span class="line"><span class="comment">//basic的类型是Quote, bulk的类型是Bulk_quote</span></span><br><span class="line">print_total(<span class="built_in">cout</span>, basic, <span class="number">20</span>);  <span class="comment">//调用Quote的net_price</span></span><br><span class="line">print_total(<span class="built_in">cout</span>, bulk, <span class="number">20</span>);   <span class="comment">//调用Bulk_quote的net_price</span></span><br></pre></td></tr></table></figure>
+
 
 
                 <hr>
@@ -211,9 +206,13 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2019/08/22/2019-8-22-hexo-termux/" data-toggle="tooltip" data-placement="top" title="Termux+Hexo搭建Github个人博客">&larr; Previous Post</a>
+                            <a href="/2020/06/29/2020-6-29-main函数中arg和argv参数解析/" data-toggle="tooltip" data-placement="top" title="main函数中arg和argv参数解析">&larr; Previous Post</a>
                         </li>
                     
+                    
+                        <li class="next">
+                            <a href="/2019/09/29/2019-11-29VSopencv/" data-toggle="tooltip" data-placement="top" title="Visual Studio 2019配置OpenCV教程">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -239,7 +238,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
                 </section>
@@ -300,7 +299,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="http://weibo.com/5628004026">
+                        <a target="_blank" href="http://weibo.com/6820316356">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>

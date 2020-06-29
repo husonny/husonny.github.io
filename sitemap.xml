@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://easy4me.cn/about/index.html</loc>
+    
+    <lastmod>2020-06-29T07:37:11.858Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/06/27/2020-6-27-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/</loc>
+    
+    <lastmod>2020-06-29T07:07:50.805Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/06/29/2020-6-29-main%E5%87%BD%E6%95%B0%E4%B8%ADarg%E5%92%8Cargv%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/</loc>
+    
+    <lastmod>2020-06-29T07:03:09.506Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://easy4me.cn/2019/08/22/2019-8-22-hexo-termux/</loc>
     
     <lastmod>2020-06-28T07:17:21.683Z</lastmod>
@@ -16,13 +37,6 @@
   </url>
   
   <url>
-    <loc>http://easy4me.cn/2019/08/20/hello-world/</loc>
-    
-    <lastmod>2019-09-06T04:41:38.977Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://easy4me.cn/tags/index.html</loc>
     
     <lastmod>2019-08-28T06:39:35.997Z</lastmod>
@@ -33,13 +47,6 @@
     <loc>http://easy4me.cn/archives/index.html</loc>
     
     <lastmod>2019-08-28T06:39:01.707Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://easy4me.cn/about/index.html</loc>
-    
-    <lastmod>2019-08-28T06:38:05.713Z</lastmod>
     
   </url>
   
