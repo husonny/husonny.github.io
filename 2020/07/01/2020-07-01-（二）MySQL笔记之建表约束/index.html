@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          （二）MySQL笔记之建表约束 - Sonny的博客 | Sonny&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://easy4me.cn/2020/07/01/2020-07-01-（二）MySQL笔记之建表约束/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sonny&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                        
+                    </div>
+                    <h1>（二）MySQL笔记之建表约束</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2020-07-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="（二）MySQL笔记之建表约束"><a href="#（二）MySQL笔记之建表约束" class="headerlink" title="（二）MySQL笔记之建表约束"></a>（二）MySQL笔记之建表约束</h2><h3 id="1-主键约束"><a href="#1-主键约束" class="headerlink" title="1.主键约束"></a>1.主键约束</h3><p>它能够唯一确定一张表中的一条记录，也就是我们通过某个字段添加约束，就可以是的改字段<strong>不重复且不为空</strong>。</p>
+<h4 id="1-1只在ID上进行约束"><a href="#1-1只在ID上进行约束" class="headerlink" title="1.1只在ID上进行约束"></a>1.1只在ID上进行约束</h4><p>主键约束 <code>primary key</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user(</span><br><span class="line">    -&gt; id int primary key,   //主键约束primary key</span><br><span class="line">    -&gt; name varchar(20));</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user values (1,&apos;张三&apos;);   //插入数据元素张三</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user values (1,&apos;张三&apos;);   //再次插入报错</span><br><span class="line">ERROR 1062 (23000): Duplicate entry &apos;1&apos; for key &apos;user.PRIMARY&apos;</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user values (2,&apos;张三&apos;);   //插入ID为2的张三</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user;</span><br><span class="line">+----+------+</span><br><span class="line">| id | name |</span><br><span class="line">+----+------+</span><br><span class="line">|  1 | 张三 |</span><br><span class="line">|  2 | 张三 |</span><br><span class="line">+----+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user values (NULL,&apos;张三&apos;);  //ID不可为空</span><br><span class="line">ERROR 1048 (23000): Column &apos;id&apos; cannot be null</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2在ID和name上都进行约束"><a href="#1-2在ID和name上都进行约束" class="headerlink" title="1.2在ID和name上都进行约束"></a>1.2在ID和name上都进行约束</h4><p><code>primary key(id, name)</code>为联合主键约束，只要这两个主键值不同时相同即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user2(</span><br><span class="line">    -&gt; 		id int,</span><br><span class="line">    -&gt; 		name varchar(20),</span><br><span class="line">    -&gt; 		password varchar(20),</span><br><span class="line">    -&gt; 		primary key(id, name)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+----------------+</span><br><span class="line">| Tables_in_test |</span><br><span class="line">+----------------+</span><br><span class="line">| pet            |</span><br><span class="line">| testtype       |</span><br><span class="line">| user           |</span><br><span class="line">| user2          |</span><br><span class="line">+----------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user2 values (1,&apos;张三&apos;,&apos;123&apos;);    //为user2添加数据元素</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user2 values (1,&apos;张三&apos;,&apos;123&apos;);    //为user2添加相同的数据元素报错</span><br><span class="line">ERROR 1062 (23000): Duplicate entry &apos;1-张三&apos; for key &apos;user2.PRIMARY&apos;</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user2 values (2,&apos;张三&apos;,&apos;123&apos;);    //为user2添加数据元素</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user2 values (1,&apos;李四&apos;,&apos;123&apos;);    //为user2添加数据元素</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user2;           //显示已添加主键约束，key的值为PRI</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field    | Type        | Null | Key | Default | Extra |</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">| id       | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name     | varchar(20) | NO   | PRI | NULL    |       |</span><br><span class="line">| password | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user2;</span><br><span class="line">+----+------+----------+</span><br><span class="line">| id | name | password |</span><br><span class="line">+----+------+----------+</span><br><span class="line">|  1 | 张三 | 123      |</span><br><span class="line">|  1 | 李四 | 123      |</span><br><span class="line">|  2 | 张三 | 123      |</span><br><span class="line">+----+------+----------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-自增约束"><a href="#2-自增约束" class="headerlink" title="2.自增约束"></a>2.自增约束</h3><p><code>primary key auto_increment</code>自增约束，可以自动管控主键值的增加，搭配主键约束一起使用，其特性为：<strong>不重复且不为空自增</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user3(</span><br><span class="line">    -&gt;     id int primary key auto_increment,  //自增约束primary key auto_increment</span><br><span class="line">    -&gt;     name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user3 (name) values (&apos;zhansan&apos;);  //插入没有定义ID的zhangsan</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user3;    //自增约束自动生成ID</span><br><span class="line">+----+---------+</span><br><span class="line">| id | name    |</span><br><span class="line">+----+---------+</span><br><span class="line">|  1 | zhansan |</span><br><span class="line">+----+---------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user3 (name) values (&apos;zhansan&apos;);  //插入没有定义ID的zhangsan</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user3;    //自增约束自动按顺序生成第二个zhangsan的ID</span><br><span class="line">+----+---------+</span><br><span class="line">| id | name    |</span><br><span class="line">+----+---------+</span><br><span class="line">|  1 | zhansan |</span><br><span class="line">|  2 | zhansan |</span><br><span class="line">+----+---------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1在创建表的时候没有创建主键约束的处理办法：通过add添加"><a href="#2-1在创建表的时候没有创建主键约束的处理办法：通过add添加" class="headerlink" title="2.1在创建表的时候没有创建主键约束的处理办法：通过add添加"></a>2.1在创建表的时候没有创建主键约束的处理办法：通过<code>add</code>添加</h4><p>修改表结构，通过<code>alter table user4 add primary key (id);</code>添加主键约束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user4(      //创建为添加主键约束的user4表</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user4;          //显示未添加主键约束，key的值为空</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table user4 add primary key (id);   //添加主键约束</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user4;         //显示添加主键，key的值为PRI</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2通过drop删除主键约束"><a href="#2-2通过drop删除主键约束" class="headerlink" title="2.2通过drop删除主键约束"></a>2.2通过<code>drop</code>删除主键约束</h4><p>通过<code>alter table user4 drop primary key;</code>删除主键约束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table user4 drop primary key; //删除主键约束</span><br><span class="line">Query OK, 0 rows affected (0.06 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user4;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | NO   |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3使用modify修改字段，添加约束"><a href="#2-3使用modify修改字段，添加约束" class="headerlink" title="2.3使用modify修改字段，添加约束"></a>2.3使用<code>modify</code>修改字段，添加约束</h4><p><code>alter table user4 modify id int primary key;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table user4 modify id int primary key;  //通过modify添加约束</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user4;     //key值重新为PRI</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-唯一约束"><a href="#3-唯一约束" class="headerlink" title="3.唯一约束"></a>3.唯一约束</h3><h4 id="3-1约束修饰的字段的值不可以重复alter-table-user5-add-unique-name"><a href="#3-1约束修饰的字段的值不可以重复alter-table-user5-add-unique-name" class="headerlink" title="3.1约束修饰的字段的值不可以重复alter table user5 add unique (name);"></a>3.1约束修饰的字段的值不可以重复<code>alter table user5 add unique (name);</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user5(</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table user5 add unique (name);    //为name添加唯一约束</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user5;               //name的key值为UNI</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  | UNI | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user5 values (1,&apos;zhangsan&apos;);   //插入zhangsan</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user5 values (2,&apos;zhangsan&apos;);   //即使ID不同，name为zhangsan也无法插入</span><br><span class="line">ERROR 1062 (23000): Duplicate entry &apos;zhangsan&apos; for key &apos;user5.name&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2创建表时直接添加唯一约束"><a href="#3-2创建表时直接添加唯一约束" class="headerlink" title="3.2创建表时直接添加唯一约束"></a>3.2创建表时直接添加唯一约束</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user6(</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20),</span><br><span class="line">    -&gt;     unique (name)  //在最后添加unique声明，这里括号内可以添加多个字段</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create table user6(</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20) unique     //在定义name时直接声明unique</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3添加多个唯一约束unique-id-name"><a href="#3-3添加多个唯一约束unique-id-name" class="headerlink" title="3.3添加多个唯一约束unique (id,name)"></a>3.3添加多个唯一约束<code>unique (id,name)</code></h4><p>表示两个键在一起不重复就行，ID和name组合在一起不重复就是OK的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;  create table user6(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name varchar(20),</span><br><span class="line">    -&gt; unique (id,name)    //同时添加两个唯一约束</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user6;     //id的可以为MUL</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  | MUL | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4删除唯一约束"><a href="#3-4删除唯一约束" class="headerlink" title="3.4删除唯一约束"></a>3.4删除唯一约束</h4><p><code>alter table user6 drop index id;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table user6 drop index id;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user6;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-5通过modify来添加"><a href="#3-5通过modify来添加" class="headerlink" title="3.5通过modify来添加"></a>3.5通过<code>modify</code>来添加</h4><p><code>alter table user6 modify name varchar(20) unique;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table user6 modify name varchar(20) unique;</span><br><span class="line">Query OK, 0 rows affected (0.02 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user6;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  | UNI | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-6总结"><a href="#3-6总结" class="headerlink" title="3.6总结"></a>3.6总结</h4><ol>
+<li>建表的时候就添加约束</li>
+<li>可以使用 alter 。。。 add 。。。</li>
+<li>alter 。。。 modify 。。。</li>
+<li>删除  alter 。。。 drop 。。。</li>
+</ol>
+<h3 id="4-非空约束"><a href="#4-非空约束" class="headerlink" title="4.非空约束"></a>4.非空约束</h3><p>修饰的字段不能为空<code>not null</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table user7(</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20) not null      //name的值不能为NULL</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user7;                                     //Null的值为NO</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | NO   |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user7 (id) values (1);                 //必须要传入name的值</span><br><span class="line">ERROR 1364 (HY000): Field &apos;name&apos; doesn&apos;t have a default value</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user7 (name) values (&apos;lisi&apos;);          //传入name的值，ID的值可以默认为NULL</span><br><span class="line">Query OK, 1 row affected (0.16 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user7;</span><br><span class="line">+------+------+</span><br><span class="line">| id   | name |</span><br><span class="line">+------+------+</span><br><span class="line">| NULL | lisi |</span><br><span class="line">+------+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-默认约束"><a href="#5-默认约束" class="headerlink" title="5.默认约束"></a>5.默认约束</h3><p>当我们插入字段值的时候，如果没有传值，就会使用默认值。如果传值将会使用新传入的值，而覆盖掉默认的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">create table user8(</span><br><span class="line">    id int,</span><br><span class="line">    name varchar(20),</span><br><span class="line">    age int default 10</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">mysql&gt; create table user8(</span><br><span class="line">    -&gt;     id int,</span><br><span class="line">    -&gt;     name varchar(20),</span><br><span class="line">    -&gt;     age int default 10                //age被设置为默认值10</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; describe user8;                       //age的Default设置为10 </span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | YES  |     | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">| age   | int         | YES  |     | 10      |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user8 (id, name) values (1,&apos;zhangsan&apos;);  //只传入前两项，最后一项的age使用的是默认值</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user8;</span><br><span class="line">+------+----------+------+</span><br><span class="line">| id   | name     | age  |</span><br><span class="line">+------+----------+------+</span><br><span class="line">|    1 | zhangsan |   10 |</span><br><span class="line">+------+----------+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into user8 (id, name, age) values (1,&apos;zhangsan&apos;,18);  //给age传入值，默认值将会被覆盖</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from user8;</span><br><span class="line">+------+----------+------+</span><br><span class="line">| id   | name     | age  |</span><br><span class="line">+------+----------+------+</span><br><span class="line">|    1 | zhangsan |   10 |</span><br><span class="line">|    1 | zhangsan |   18 |</span><br><span class="line">+------+----------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-外键约束"><a href="#6-外键约束" class="headerlink" title="6.外键约束"></a>6.外键约束</h3><p>涉及到两个表：父表和子表（主表、副表）。实例：</p>
+<p>—-&gt;班级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create table classes(</span><br><span class="line">    id int primary key,</span><br><span class="line">    name varchar(20)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">mysql&gt; create table classes(</span><br><span class="line">    -&gt;     id int primary key,</span><br><span class="line">    -&gt;     name varchar(20)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.03 sec)</span><br></pre></td></tr></table></figure>
+
+<p>—-&gt;学生表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">create table students(</span><br><span class="line">    id int primary key,</span><br><span class="line">    name varchar(20),</span><br><span class="line">    class_id int,</span><br><span class="line">    foreign key(class_id) references classes(id)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">mysql&gt; create table students(</span><br><span class="line">    -&gt;     id int primary key,</span><br><span class="line">    -&gt;     name varchar(20),</span><br><span class="line">    -&gt;     class_id int,</span><br><span class="line">    -&gt;     foreign key(class_id) references classes(id)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc classes;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| id    | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name  | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; desc students;</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field    | Type        | Null | Key | Default | Extra |</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">| id       | int         | NO   | PRI | NULL    |       |</span><br><span class="line">| name     | varchar(20) | YES  |     | NULL    |       |</span><br><span class="line">| class_id | int         | YES  | MUL | NULL    |       |</span><br><span class="line">+----------+-------------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">insert into classes values (1,&apos;一班&apos;);</span><br><span class="line">insert into classes values (2,&apos;二班&apos;);</span><br><span class="line">insert into classes values (3,&apos;三班&apos;);</span><br><span class="line">insert into classes values (4,&apos;四班&apos;);</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from classes;</span><br><span class="line">+----+------+</span><br><span class="line">| id | name |</span><br><span class="line">+----+------+</span><br><span class="line">|  1 | 一班 |</span><br><span class="line">|  2 | 二班 |</span><br><span class="line">|  3 | 三班 |</span><br><span class="line">|  4 | 四班 |</span><br><span class="line">+----+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">insert into students values (1001,&apos;张三&apos;,1);</span><br><span class="line">insert into students values (1002,&apos;李四&apos;,2);</span><br><span class="line">insert into students values (1003,&apos;王五&apos;,3);</span><br><span class="line">insert into students values (1004,&apos;赵六&apos;,4);</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from students;</span><br><span class="line">+------+------+----------+</span><br><span class="line">| id   | name | class_id |</span><br><span class="line">+------+------+----------+</span><br><span class="line">| 1001 | 张三 |        1 |</span><br><span class="line">| 1002 | 李四 |        2 |</span><br><span class="line">| 1003 | 王五 |        3 |</span><br><span class="line">| 1004 | 赵六 |        4 |</span><br><span class="line">+------+------+----------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//由于class_id是和classes绑定的，因此不能在students中添加超出此范围的class_id的值</span><br><span class="line">mysql&gt; insert into students values (1005,&apos;赵7&apos;,5);   </span><br><span class="line">ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`test`.`students`, CONSTRAINT `students_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`))</span><br></pre></td></tr></table></figure>
+
+<p>主表classes中没有的数据值，在副表中是不可以使用的。</p>
+<p>主表中的记录被副表引用，是不可以删除的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; delete from classes where id=4;     //classes中的数据元素无法删除或者更新，这些数据在students中仍然被使用</span><br><span class="line">ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`test`.`students`, CONSTRAINT `students_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`))</span><br></pre></td></tr></table></figure>
+
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/07/01/2020-07-01-（一）MySQL笔记之使用终端操作数据库/" data-toggle="tooltip" data-placement="top" title="（一）MySQL笔记之使用终端操作数据库">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MySQL" title="MySQL">MySQL</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.greenday666.xyz" target="_blank">Zzn-Greenday</a></li>
+                    
+                        <li><a href="https://github.com/kasuganosoras/cxk-ball" target="_blank">CXK plays basketball</a></li>
+                    
+                        <li><a href="http://github.com/kelseyhightower/nocode" target="_blank">Nocode</a></li>
+                    
+                        <li><a href="https://github.com/maebert/themostdangerouswritingapp" target="_blank">写作者的噩梦源泉</a></li>
+                    
+                        <li><a href="https://github.com/bestony/logoly" target="_blank">Logoly</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/sonnyshu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6820316356">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/husonny">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sonny&#39;s Blog 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://easy4me.cn">Sonny</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=husonny&repo=husonny.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://easy4me.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
