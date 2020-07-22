@@ -2,23 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://easy4me.cn/2020/06/29/2020-6-29-union%EF%BC%9A%E4%B8%80%E7%A7%8D%E8%8A%82%E7%9C%81%E7%A9%BA%E9%97%B4%E7%9A%84%E7%B1%BB/</loc>
-    
-    <lastmod>2020-07-01T13:06:47.995Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://easy4me.cn/2020/07/01/2020-07-01-%EF%BC%88%E4%BA%8C%EF%BC%89MySQL%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%BB%BA%E8%A1%A8%E7%BA%A6%E6%9D%9F/</loc>
     
-    <lastmod>2020-07-01T13:06:02.130Z</lastmod>
+    <lastmod>2020-07-22T12:52:50.667Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://easy4me.cn/2020/07/01/2020-07-01-%EF%BC%88%E4%B8%80%EF%BC%89MySQL%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     
-    <lastmod>2020-07-01T13:05:14.997Z</lastmod>
+    <lastmod>2020-07-22T12:40:26.344Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/07/02/2020-07-02-26.%5BEasy%5DRemove-Duplicates-from-Sorted-Array/</loc>
+    
+    <lastmod>2020-07-22T12:16:23.307Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/07/02/2020-07-02-1.%5BEasy%5DTwo-Sum/</loc>
+    
+    <lastmod>2020-07-22T12:01:59.550Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/06/27/2020-6-27-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/</loc>
+    
+    <lastmod>2020-07-22T11:57:39.360Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/06/29/2020-6-29-main%E5%87%BD%E6%95%B0%E4%B8%ADarg%E5%92%8Cargv%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/</loc>
+    
+    <lastmod>2020-07-22T11:57:15.929Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://easy4me.cn/2020/06/29/2020-6-29-union%EF%BC%9A%E4%B8%80%E7%A7%8D%E8%8A%82%E7%9C%81%E7%A9%BA%E9%97%B4%E7%9A%84%E7%B1%BB/</loc>
+    
+    <lastmod>2020-07-22T11:56:50.917Z</lastmod>
     
   </url>
   
@@ -26,20 +54,6 @@
     <loc>http://easy4me.cn/about/index.html</loc>
     
     <lastmod>2020-06-29T07:49:17.095Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://easy4me.cn/2020/06/27/2020-6-27-%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/</loc>
-    
-    <lastmod>2020-06-29T07:07:50.805Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://easy4me.cn/2020/06/29/2020-6-29-main%E5%87%BD%E6%95%B0%E4%B8%ADarg%E5%92%8Cargv%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/</loc>
-    
-    <lastmod>2020-06-29T07:03:09.506Z</lastmod>
     
   </url>
   

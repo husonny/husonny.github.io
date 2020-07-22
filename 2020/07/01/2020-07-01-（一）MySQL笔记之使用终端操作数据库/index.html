@@ -87,14 +87,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -188,11 +188,13 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="（一）MySQL笔记之使用终端操作数据库"><a href="#（一）MySQL笔记之使用终端操作数据库" class="headerlink" title="（一）MySQL笔记之使用终端操作数据库"></a>（一）MySQL笔记之使用终端操作数据库</h2><h3 id="1-如何登陆数据库服务器"><a href="#1-如何登陆数据库服务器" class="headerlink" title="1.如何登陆数据库服务器"></a>1.如何登陆数据库服务器</h3><p><code>mysql&gt; mysql -uroot -p</code></p>
+                <h3 id="1-如何登陆数据库服务器"><a href="#1-如何登陆数据库服务器" class="headerlink" title="1.如何登陆数据库服务器"></a>1.如何登陆数据库服务器</h3><p><code>mysql&gt; mysql -uroot -p</code></p>
 <p>若root密码设置为了123456，则可直接使用下面语句登陆。</p>
 <p><code>mysql&gt; mysql -uroot -p123456</code></p>
-<h3 id="2-如何查询数据库服务器中所有的数据"><a href="#2-如何查询数据库服务器中所有的数据" class="headerlink" title="2.如何查询数据库服务器中所有的数据"></a>2.如何查询数据库服务器中所有的数据</h3><p><code>mysql&gt; show databases;</code>注意末尾的分号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="2-如何查询数据库服务器中所有的数据"><a href="#2-如何查询数据库服务器中所有的数据" class="headerlink" title="2.如何查询数据库服务器中所有的数据"></a>2.如何查询数据库服务器中所有的数据</h3><p><code>mysql&gt; show databases;</code></p>
+<p>注意末尾的分号，mysql语法中总是以分号结束一个语句的输入，如果在一个输入完毕的语句结尾没有分号，则会报错或者系统将此句与下一行的语句视为一个整体而一起运行。</p>
+<p>最简单的查看数据库的方式，可以查看系统中所有现存数据库的名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//查看databases</span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
 
 <h3 id="3-如何选中一个数据库进行操作"><a href="#3-如何选中一个数据库进行操作" class="headerlink" title="3.如何选中一个数据库进行操作"></a>3.如何选中一个数据库进行操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from admin;</span><br><span class="line">ERROR 1046 (3D000): No database selected</span><br></pre></td></tr></table></figure>
 
