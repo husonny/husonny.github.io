@@ -13,11 +13,11 @@
 
     <title>
         
-          Sonny的博客 | Sonny&#39;s Blog
+          LeetCode-1.[Easy] Two sum - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/i_dont_wanna_use_default_archives/2019/08/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/02/2020-07-02-1-Easy-Two-Sum/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -144,7 +144,147 @@
 
 
     <!-- Main Content -->
-    <!-- Default Archive layout, we use archives instead. -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
+                        
+                    </div>
+                    <h1>LeetCode-1.[Easy] Two sum</h1>
+                    <h2 class="subheading">数组、哈希表</h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2020-07-02
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><code>Difficulty: Easy</code></p>
+<p><strong>（数组、哈希表）</strong></p>
+<p><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">[1] Two Sum</a></p>
+<p>Given an array of integers, return <strong>indices</strong> of the two numbers such that they add up to a specific target.</p>
+<p>You may assume that each input would have <strong>exactly</strong> one solution, and you may not use the <em>same</em> element twice.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>], target = <span class="number">9</span>,</span><br><span class="line"></span><br><span class="line">Because nums[<span class="number">0</span>] + nums[<span class="number">1</span>] = <span class="number">2</span> + <span class="number">7</span> = <span class="number">9</span>,</span><br><span class="line">return [<span class="number">0</span>, <span class="number">1</span>].</span><br></pre></td></tr></table></figure>
+
+<p>给定一个整数数组，返回两个数字的索引，以便它们加起来成为一个特定的目标。</p>
+<p>可以假设每个输入都只有一个解决方案，并且可能不会两次使用同一元素。</p>
+<p><strong><em>本题目前采用的是暴力解法嵌套循环，还可采用哈希表解法。</em></strong></p>
+<p>要想在数组中找到相加的结果为指定数的两个元素，可以对数组进行遍历，用嵌套的遍历循环可以实现，在判断满足的两个元素后，需要将这两个元素的索引进行返回，这里通过创建一个vector数组，将满足条件的索引添加进去并打印。虽然这种方法实现起来是最简单的，其时间复杂度为O(n<sup>2</sup>)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ret;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i != nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j != nums.size(); ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i] + nums[j] == target)</span><br><span class="line">                &#123;</span><br><span class="line">                    ret.push_back(i);</span><br><span class="line">                    ret.push_back(j);</span><br><span class="line">                    <span class="comment">//break;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/07/02/2020-07-02-26-Easy-Remove-Duplicates-from-Sorted-Array/" data-toggle="tooltip" data-placement="top" title="LeetCode-26.[Easy] Remove Duplicates from Sorted Array">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/07/01/2020-07-01-（二）MySQL笔记之建表约束/" data-toggle="tooltip" data-placement="top" title="（二）MySQL笔记之建表约束">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.greenday666.xyz" target="_blank">Zzn-Greenday</a></li>
+                    
+                        <li><a href="https://github.com/kasuganosoras/cxk-ball" target="_blank">CXK plays basketball</a></li>
+                    
+                        <li><a href="http://github.com/kelseyhightower/nocode" target="_blank">Nocode</a></li>
+                    
+                        <li><a href="https://github.com/maebert/themostdangerouswritingapp" target="_blank">写作者的噩梦源泉</a></li>
+                    
+                        <li><a href="https://github.com/bestony/logoly" target="_blank">Logoly</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
 
     <!-- Footer -->
     <!-- Footer -->

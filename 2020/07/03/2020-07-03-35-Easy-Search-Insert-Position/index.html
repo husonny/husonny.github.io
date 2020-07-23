@@ -13,11 +13,11 @@
 
     <title>
         
-          LeetCode-26.[Easy] Remove Duplicates from Sorted Array - Sonny的博客 | Sonny&#39;s Blog
+          LeetCode-35.[Easy] Search Insert Position - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/02/2020-07-02-26.[Easy]Remove-Duplicates-from-Sorted-Array/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -87,14 +87,14 @@
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -167,11 +167,11 @@
                           <a class="tag" href="/tags/#Array" title="Array">Array</a>
                         
                     </div>
-                    <h1>LeetCode-26.[Easy] Remove Duplicates from Sorted Array</h1>
-                    <h2 class="subheading">数组、双指针</h2>
+                    <h1>LeetCode-35.[Easy] Search Insert Position</h1>
+                    <h2 class="subheading">数组、二分查找</h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2020-07-02
+                        2020-07-03
                     </span>
                 </div>
             </div>
@@ -191,30 +191,28 @@
                 post-container">
 
                 <p><code>Difficulty: Easy</code></p>
-<p><strong>（数组、双指针）</strong></p>
-<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array" target="_blank" rel="noopener">[26] Remove Duplicates from Sorted Array</a></p>
-<p>Given a sorted array <em>nums</em>, remove the duplicates <strong>in-place</strong> such that each element appear only <em>once</em> and return the new length.</p>
-<p>Do not allocate extra space for another array, you must do this by <strong>modifying the input array in-place</strong> with O(1) extra memory.</p>
+<p><strong>（数组、二分查找）</strong></p>
+<p><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">[35] Search Insert Position</a></p>
+<p>Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
+<p>You may assume no duplicates in the array.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">Your <span class="keyword">function</span> <span class="title">should</span> <span class="keyword">return</span> <span class="type">length</span> = <span class="number">2</span>, <span class="keyword">with</span> the first two elements <span class="keyword">of</span> nums being <span class="number">1</span> <span class="keyword">and</span> <span class="number">2</span> respectively.</span><br><span class="line">It doesn<span class="symbol">'t</span> matter what you leave beyond the returned length.</span><br></pre></td></tr></table></figure>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">5</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>Example 2:</strong></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>],</span><br><span class="line">Your function should return length = <span class="number">5</span>, with the first five elements of nums being modified to <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, and <span class="number">4</span> respectively.</span><br><span class="line">It doesn't matter what values are set beyond the returned length.</span><br></pre></td></tr></table></figure>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">2</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>Clarification:</strong></p>
-<p>Confused why the returned value is an integer but your answer is an array?</p>
-<p>Note that the input array is passed in by <strong>reference</strong>, which means modification to the input array will be known to the caller as well.</p>
-<p>Internally you can think of this:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nums is passed in by reference. (i.e., without making a copy)</span></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">len</span> = removeDuplicates(nums);</span><br><span class="line"></span><br><span class="line"><span class="comment">// any modification to nums in your function would be known by the caller.</span></span><br><span class="line"><span class="comment">// using the length returned by your function, it prints the first len elements.</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">len</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">print</span>(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">7</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
 
-<p>给定一个已排序的数组nums，就地删除重复项，以使每个元素仅出现一次并返回新的长度。不要为另一个数组分配额外的空间，必须通过使用O(1)额外的内存就地修改输入数组来做到这一点。</p>
-<p>范例1：给定nums = [1,1,2]，返回length = 2，num的前两个元素分别为1和2。<br>范例2：给定nums = [0,0,1,1,1,2,2,3,3,4]，返回length = 5，并将nums的前五个元素分别修改为0、1、2、3和4。</p>
-<p>本题的目的就是去除数组中的相同的元素，并返回去重后的数组长度。要求是不通过申请新的空间（不通过定义一个新的数组，将处理后的数组直接复制过来），而是直接对原来的数组进行操作，注意题目强调的是通过引用的方式传入数组的（不是通过复制方式）。最后在输出时不需要输出数组，而是对处理完毕的数组进行遍历输出一个个元素，题目示例给出了for循环遍历。</p>
-<p>这道题的要求是从有序数组中去除重复项，数组是可以直接访问下标的，这道题的解题思路是使用快慢指针来记录遍历的坐标，从一开始两个指针都指向第一个元素，此时判断两个指针所指元素是否相等，如果两个指针指的数字相同，则快指针向前走一步，如果不同，则两个指针都向前走一步，这样当快指针走完整个数组后，慢指针当前的坐标加1就是数组中不同数字的个数。</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">j=<span class="number">0</span>              j=<span class="number">1</span>              j=<span class="number">2</span></span><br><span class="line"> |                |                |</span><br><span class="line"> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span></span><br><span class="line"> |              |                |</span><br><span class="line">i=<span class="number">0</span>            i=<span class="number">0</span>              i=<span class="number">1</span></span><br><span class="line">（<span class="number">1</span>）当j=<span class="number">2</span>时nums[j=<span class="number">2</span>]=<span class="number">1</span>，nums[i=<span class="number">0</span>]=<span class="number">0</span>，此时</span><br><span class="line">nums[i] != nums[j]执行nums[++i] = nums[j]，</span><br><span class="line">此时i向右移动一位i=<span class="number">1</span>，并将j此时对应的值赋给i所指的值</span><br><span class="line"></span><br><span class="line">    j=<span class="number">2</span>              j=<span class="number">3</span>              j=<span class="number">4</span></span><br><span class="line">     |                |                |</span><br><span class="line"> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span></span><br><span class="line">   |              |              |</span><br><span class="line">  i=<span class="number">1</span>            i=<span class="number">1</span>            i=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">（<span class="number">2</span>）继续执行直到j=<span class="number">4</span>时nums[j=<span class="number">4</span>]=<span class="number">1</span>，nums[i=<span class="number">1</span>]=<span class="number">0</span>，</span><br><span class="line">此时nums[i] != nums[j]，继续将i向右移动一位i=<span class="number">2</span>，</span><br><span class="line">并将j此时对应的值赋给i所指的值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        j=<span class="number">4</span>            j=<span class="number">4</span>              j=<span class="number">5</span></span><br><span class="line">         |              |                |</span><br><span class="line"> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span> &gt;&gt; <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">2</span></span><br><span class="line">     |              |              |</span><br><span class="line">    i=<span class="number">2</span>            i=<span class="number">2</span>            i=<span class="number">2</span></span><br><span class="line"></span><br><span class="line">（<span class="number">3</span>）j=<span class="number">5</span>此时循环到达末尾，程序返回i+<span class="number">1</span>即为修改后的长度</span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">0</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
 
+<p>给定一个已排序的数组和一个目标值，如果找到目标，则返回索引。 如果不是，则返回按顺序插入索引的位置的索引。假定数组中没有重复项。</p>
+<p>范例1：输入：[1, 3, 5, 6]，5，输出2。<br>范例2：输入：[1, 3, 5, 6]，2，输出1。<br>范例3：输入：[1, 3, 5, 6]，7，输出4。<br>范例4：输入：[1, 3, 5, 6]，0，输出0。</p>
+<p><strong><em>本题也可采用二分查找来优化时间复杂度。</em></strong></p>
+<p>题目的要求就是返回元素的索引，当数组中的元素大于或等于目标值，则返回当前元素的索引。当目标值比数组中的任何元素都要大，则返回数组的长度。只需要遍历数组，通过<code>if</code>来判断并返回索引或者数组长度即可。</p>
 <p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeDuplicates</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, len = nums.size();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j != len; ++j)</span><br><span class="line">            <span class="keyword">if</span>(nums[i] != nums[j])</span><br><span class="line">                nums[++i] = nums[j];</span><br><span class="line">        <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i != nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] &gt;= target)</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -226,7 +224,7 @@
                     
                     
                         <li class="next">
-                            <a href="/2020/07/02/2020-07-02-1.[Easy]Two-Sum/" data-toggle="tooltip" data-placement="top" title="LeetCode-1.[Easy] Two sum">Next Post &rarr;</a>
+                            <a href="/2020/07/03/2020-07-03-27-Easy-Remove-Element/" data-toggle="tooltip" data-placement="top" title="LeetCode-27.[Easy] Remove Element">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
