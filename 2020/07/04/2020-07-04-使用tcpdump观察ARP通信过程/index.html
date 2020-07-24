@@ -13,11 +13,11 @@
 
     <title>
         
-          LeetCode-35.[Easy] Search Insert Position - Sonny的博客 | Sonny&#39;s Blog
+          使用tcpdump观察ARP通信过程 - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,16 +162,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
+                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
                         
                     </div>
-                    <h1>LeetCode-35.[Easy] Search Insert Position</h1>
-                    <h2 class="subheading">数组、二分查找</h2>
+                    <h1>使用tcpdump观察ARP通信过程</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2020-07-03
+                        2020-07-04
                     </span>
                 </div>
             </div>
@@ -190,30 +188,35 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><code>Difficulty: Easy</code></p>
-<p><strong>（数组、二分查找）</strong></p>
-<p><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">[35] Search Insert Position</a></p>
-<p>Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
-<p>You may assume no duplicates in the array.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">5</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+                <p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相信任的基础上的，局域网络上的主机可以自主发送ARP应答消息，其他主机收到应答报文时不会检测该报文的真实性就会将其记入本机ARP缓存；由此攻击者就可以向某一主机发送伪ARP应答报文，使其发送的信息无法到达预期的主机或到达错误的主机，这就构成了一个ARP欺骗。ARP命令可用于查询本机ARP缓存中IP地址和MAC地址的对应关系、添加或删除静态对应关系等。相关协议有RARP、代理ARP。NDP用于在IPv6中代替地址解析协议。<a href="https://baike.baidu.com/item/ARP/609343?fr=aladdin" target="_blank" rel="noopener">ARP百科</a></p>
+<p>为了深入理解网络通信和网络编程，使用两台主机以及一台连接到因特网的路由器测试网络。通过抓取该网络上的以太网帧，以获取网络通信的细节。</p>
+<p>工作原理：<strong>ARP协议能实现任意网络层地址到任意物理地址的转换。</strong>主机向自己所在的网络广播一个ARP请求，该请求包含目标机器的网络地址。此网络上的其他机器都将受到这个请求，但只有被请求的目标机器会回应一个ARP应答，其中包含自己的物理地址。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">测试环境：</span></span><br><span class="line">机器名：sonny-2019         机器名：sonnyokPC</span><br><span class="line">IP地址：192.168.108.129    IP地址：192.168.108.130 </span><br><span class="line">MAC地址： ************     MAC地址：*************</span><br><span class="line">系统：Ubuntu 18.04LTS      系统：Ubuntu 18.04LTS</span><br><span class="line">路由器：</span><br><span class="line">IP地址：192.168.1.1</span><br><span class="line">MAC地址：************</span><br><span class="line"><span class="meta">---&gt;</span><span class="bash">&gt;去因特网</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 2:</strong></p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">2</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="（1）在sonnyokPC上执行："><a href="#（1）在sonnyokPC上执行：" class="headerlink" title="（1）在sonnyokPC上执行："></a>（1）在sonnyokPC上执行：</h3><p>先为<code>sonnyokPC</code>安装网络工具并查看<code>IP</code>和<code>MAC</code>地址：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install net-tools</span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 3:</strong></p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">7</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>查看高速缓存中的所有项目：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arp -a</span><br><span class="line">? (192.168.108.130) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.2) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.254) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br></pre></td></tr></table></figure>
 
-<p><strong>Example 4:</strong></p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">0</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><code>Telnet</code>协议是<code>TCP/IP</code>协议族中的一员，是<code>Internet</code>远程登陆服务的标准协议和主要方式。可以通过<code>Telnet</code>实现远程登录<code>Ubuntu</code>，安装Telnet相关组件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openbsd-inetd</span><br><span class="line">sudo apt install telnetd</span><br><span class="line">sudo /etc/init.d/openbsd-inetd restart #重启openbsd-inetd服务</span><br><span class="line">netstat -a | grep telnet #显示和侦听端口并测试安装是否完成</span><br><span class="line">tcp    0    0 0.0.0.0:telnet     0.0.0.0:*     LISTEN</span><br></pre></td></tr></table></figure>
 
-<p>给定一个已排序的数组和一个目标值，如果找到目标，则返回索引。 如果不是，则返回按顺序插入索引的位置的索引。假定数组中没有重复项。</p>
-<p>范例1：输入：[1, 3, 5, 6]，5，输出2。<br>范例2：输入：[1, 3, 5, 6]，2，输出1。<br>范例3：输入：[1, 3, 5, 6]，7，输出4。<br>范例4：输入：[1, 3, 5, 6]，0，输出0。</p>
-<p><strong><em>本题也可采用二分查找来优化时间复杂度。</em></strong></p>
-<p>题目的要求就是返回元素的索引，当数组中的元素大于或等于目标值，则返回当前元素的索引。当目标值比数组中的任何元素都要大，则返回数组的长度。只需要遍历数组，通过<code>if</code>来判断并返回索引或者数组长度即可。</p>
-<p>代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i != nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] &gt;= target)</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>删除后再添加缓存项目：</p>
+<p>在执行<code>Telnet</code>，命令之前要先清除ARP缓存中的与<code>sonnyokPC</code>对应的项，否则ARP通信不被执行，也就无法抓取到期望的以太网帧。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo arp -d 192.168.108.130</span><br><span class="line">sudo arp -s 192.168.108.130 xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
 
+<h3 id="（2）在sonny-2019上执行："><a href="#（2）在sonny-2019上执行：" class="headerlink" title="（2）在sonny-2019上执行："></a>（2）在sonny-2019上执行：</h3><p><em>如果在执行下列名令时出现错误，应当首先考虑TCP组件是否安装完整，安装（1）的步骤安装相关组件即可。</em></p>
+<p>抓取两台主机测试网络中的以太网帧：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line"><span class="meta">#</span><span class="bash">已经开始运行：</span></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br></pre></td></tr></table></figure>
+
+<p>开启另一个终端，执行<code>Telnet</code>命令并在两台通信主机之间建立TCP连接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">telnet 192.168.108.130</span><br><span class="line"><span class="meta">#</span><span class="bash">开始连接</span></span><br><span class="line">Trying 192.168.108.130...</span><br><span class="line">Connected to 192.168.108.130.</span><br><span class="line">Escape character is '^]'.</span><br><span class="line">Ubuntu 18.04.2 LTS</span><br><span class="line">sonnyokPC login: sonnyok</span><br><span class="line">Password: </span><br><span class="line">Last login: Fri Jul 24 21:55:03 CST 2020 from 192.168.108.129 on pts/1</span><br><span class="line">Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.18.0-15-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Canonical Livepatch is available for installation.</span><br><span class="line">   - Reduce system reboots and improve kernel security. Activate at:</span><br><span class="line">     https://ubuntu.com/livepatch</span><br><span class="line"></span><br><span class="line">522 packages can be updated.</span><br><span class="line">309 updates are security updates.</span><br><span class="line"></span><br><span class="line">Your Hardware Enablement Stack (HWE) is supported until April 2023.</span><br></pre></td></tr></table></figure>
+
+<p>数据包抓取详情：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 2798059919:2798059922, ack 1356453231, win 501, options [nop,nop,TS val 52760501 ecr 1686927914], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 95: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 1:30, ack 3, win 227, options [nop,nop,TS val 1687084957 ecr 52760501], length 29</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 30, win 501, options [nop,nop,TS val 52760504 ecr 1687084957], length 0</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 3:6, ack 30, win 501, options [nop,nop,TS val 52763073 ecr 1687084957], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 137: </span><br><span class="line"> </span><br><span class="line">......#仅保留了部分数据</span><br><span class="line"></span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2690, win 501, options [nop,nop,TS val 52787051 ecr 1687111489], length 0</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 138: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 2690:2762, ack 263, win 227, options [nop,nop,TS val 1687111702 ecr 52787051], length 72</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2762, win 501, options [nop,nop,TS val 52787263 ecr 1687111702], length 0</span><br><span class="line">^C</span><br><span class="line">257 packets captured</span><br><span class="line">257 packets received by filter</span><br><span class="line">0 packets dropped by kernel</span><br></pre></td></tr></table></figure>
+
+<p>数据包分析过程省略。</p>
 
 
                 <hr>
@@ -222,13 +225,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/" data-toggle="tooltip" data-placement="top" title="使用tcpdump观察ARP通信过程">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2020/07/03/2020-07-03-27-Easy-Remove-Element/" data-toggle="tooltip" data-placement="top" title="LeetCode-27.[Easy] Remove Element">Next Post &rarr;</a>
+                            <a href="/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/" data-toggle="tooltip" data-placement="top" title="LeetCode-35.[Easy] Search Insert Position">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -255,9 +254,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
+                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
                         
                     </div>
                 </section>
