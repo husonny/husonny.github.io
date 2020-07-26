@@ -13,11 +13,11 @@
 
     <title>
         
-          使用tcpdump观察ARP通信过程 - Sonny的博客 | Sonny&#39;s Blog
+          LeetCode-53.[Easy] Maximum Subarray - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/04/2020-07-04-53-Easy-Maximum-Subarray/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,11 +162,13 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
                         
                     </div>
-                    <h1>使用tcpdump观察ARP通信过程</h1>
-                    <h2 class="subheading"></h2>
+                    <h1>LeetCode-53.[Easy] Maximum Subarray</h1>
+                    <h2 class="subheading">数组、动态规划、贪心、分治</h2>
                     <span class="meta">
                         Posted by Sonny on
                         2020-07-04
@@ -188,35 +190,45 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相信任的基础上的，局域网络上的主机可以自主发送ARP应答消息，其他主机收到应答报文时不会检测该报文的真实性就会将其记入本机ARP缓存；由此攻击者就可以向某一主机发送伪ARP应答报文，使其发送的信息无法到达预期的主机或到达错误的主机，这就构成了一个ARP欺骗。ARP命令可用于查询本机ARP缓存中IP地址和MAC地址的对应关系、添加或删除静态对应关系等。相关协议有RARP、代理ARP。NDP用于在IPv6中代替地址解析协议。<a href="https://baike.baidu.com/item/ARP/609343?fr=aladdin" target="_blank" rel="noopener">ARP百科</a></p>
-<p>为了深入理解网络通信和网络编程，使用两台主机以及一台连接到因特网的路由器测试网络。通过抓取该网络上的以太网帧，以获取网络通信的细节。</p>
-<p>工作原理：<strong>ARP协议能实现任意网络层地址到任意物理地址的转换。</strong>主机向自己所在的网络广播一个ARP请求，该请求包含目标机器的网络地址。此网络上的其他机器都将受到这个请求，但只有被请求的目标机器会回应一个ARP应答，其中包含自己的物理地址。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">测试环境：</span></span><br><span class="line">机器名：sonny-2019         机器名：sonnyokPC</span><br><span class="line">IP地址：192.168.108.129    IP地址：192.168.108.130 </span><br><span class="line">MAC地址： ************     MAC地址：*************</span><br><span class="line">系统：Ubuntu 18.04LTS      系统：Ubuntu 18.04LTS</span><br><span class="line">路由器：</span><br><span class="line">IP地址：192.168.1.1</span><br><span class="line">MAC地址：************</span><br><span class="line"><span class="meta">---&gt;</span><span class="bash">&gt;去因特网</span></span><br></pre></td></tr></table></figure>
+                <p><code>Difficulty: Easy</code></p>
+<p><strong>（数组、动态规划、贪心、分治）</strong></p>
+<p><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank" rel="noopener">[53] Maximum Subarray</a></p>
+<p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [<span class="string">-2</span>,1,<span class="string">-3</span>,4,<span class="string">-1</span>,2,1,<span class="string">-5</span>,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,<span class="string">-1</span>,2,1] has the largest sum = 6.</span><br></pre></td></tr></table></figure>
 
-<h3 id="（1）在sonnyokPC上执行："><a href="#（1）在sonnyokPC上执行：" class="headerlink" title="（1）在sonnyokPC上执行："></a>（1）在sonnyokPC上执行：</h3><p>先为<code>sonnyokPC</code>安装网络工具并查看<code>IP</code>和<code>MAC</code>地址：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install net-tools</span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><strong>Follow up:</strong></p>
+<p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
+<p>给定一个整数数组nums，找到具有最大总和的连续子数组（至少包含一个数字）并返回其总和。</p>
+<p>例：输入：[-2,1，-3,4，-1,2,1，-5,4]，输出6说明：[4，-1,2,1]的总和= 6。</p>
+<p>如果您已经找到O(n)解决方案，请尝试使用分而治之的方法对另一个解决方案进行编码，这种方法更加微妙。</p>
+<p>这道题除了有普通的解法，还可以用到分治算法。</p>
+<p>思路一：动态规划<a href="https://www.cnblogs.com/ygh1229/p/9771441.html" target="_blank" rel="noopener">【参考文献】</a></p>
+<p>因为这是个优化问题。并且问题可以分解为一个个子问题，所以利用动态规划来解决此问题是一种很好的解决方案：</p>
+<p>dp[i-1]到dp[i]的转换分两种情况：</p>
+<ol>
+<li><p>dp[i-1] &gt; 0： 当大于0时，dp[i] = dp[i-1] + num[i]</p>
+</li>
+<li><p>dp[i-1] &lt; 0：当大于0时，dp[i] = 0 （因为此时将剔除dp[i-1]的影响）</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dp(nums.size());</span><br><span class="line">        dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> max_ans = dp[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i&lt;nums.size();++i)&#123;</span><br><span class="line">            dp[i] = nums[i] + (dp[i<span class="number">-1</span>] &gt; <span class="number">0</span> ? dp[i<span class="number">-1</span>] : <span class="number">0</span>);</span><br><span class="line">            max_ans = max(max_ans, dp[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max_ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>查看高速缓存中的所有项目：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arp -a</span><br><span class="line">? (192.168.108.130) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.2) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.254) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br></pre></td></tr></table></figure>
+<p>思路二：贪心</p>
+<p>贪心算法的思想是在每一步只考虑当前的最优解，而不去考虑整体解的情况，因此贪心算法最终得到的解并不一定是最优解。从左到右汇总数组时找到总和最优解，只记录临时sum和最大sum。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//maxSum = INT_MIN, prevSum = 0;</span></span><br><span class="line">        <span class="keyword">int</span> maxSum &#123;INT_MIN&#125;, prevSum&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> n : nums) </span><br><span class="line">        &#123;</span><br><span class="line">            prevSum = (prevSum + n &gt; n) ? prevSum + n : n;</span><br><span class="line">            maxSum = max(prevSum, maxSum);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p><code>Telnet</code>协议是<code>TCP/IP</code>协议族中的一员，是<code>Internet</code>远程登陆服务的标准协议和主要方式。可以通过<code>Telnet</code>实现远程登录<code>Ubuntu</code>，安装Telnet相关组件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openbsd-inetd</span><br><span class="line">sudo apt install telnetd</span><br><span class="line">sudo /etc/init.d/openbsd-inetd restart #重启openbsd-inetd服务</span><br><span class="line">netstat -a | grep telnet #显示和侦听端口并测试安装是否完成</span><br><span class="line">tcp    0    0 0.0.0.0:telnet     0.0.0.0:*     LISTEN</span><br></pre></td></tr></table></figure>
+<p>对于INT_MIN的解释：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a = INT_MIN;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; a &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output:<span class="number">-2147483648</span></span><br></pre></td></tr></table></figure>
 
-<p>删除后再添加缓存项目：</p>
-<p>在执行<code>Telnet</code>，命令之前要先清除ARP缓存中的与<code>sonnyokPC</code>对应的项，否则ARP通信不被执行，也就无法抓取到期望的以太网帧。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo arp -d 192.168.108.130</span><br><span class="line">sudo arp -s 192.168.108.130 xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
+<p>INT_MIN在标准头文件limits.h中定义。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT_MAX 2147483647</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT_MIN (-INT_MAX - 1)</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）在sonny-2019上执行："><a href="#（2）在sonny-2019上执行：" class="headerlink" title="（2）在sonny-2019上执行："></a>（2）在sonny-2019上执行：</h3><p><em>如果在执行下列名令时出现错误，应当首先考虑TCP组件是否安装完整，安装（1）的步骤安装相关组件即可。</em></p>
-<p>抓取两台主机测试网络中的以太网帧：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line"><span class="meta">#</span><span class="bash">已经开始运行：</span></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br></pre></td></tr></table></figure>
-
-<p>开启另一个终端，执行<code>Telnet</code>命令并在两台通信主机之间建立TCP连接：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">telnet 192.168.108.130</span><br><span class="line"><span class="meta">#</span><span class="bash">开始连接</span></span><br><span class="line">Trying 192.168.108.130...</span><br><span class="line">Connected to 192.168.108.130.</span><br><span class="line">Escape character is '^]'.</span><br><span class="line">Ubuntu 18.04.2 LTS</span><br><span class="line">sonnyokPC login: sonnyok</span><br><span class="line">Password: </span><br><span class="line">Last login: Fri Jul 24 21:55:03 CST 2020 from 192.168.108.129 on pts/1</span><br><span class="line">Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.18.0-15-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Canonical Livepatch is available for installation.</span><br><span class="line">   - Reduce system reboots and improve kernel security. Activate at:</span><br><span class="line">     https://ubuntu.com/livepatch</span><br><span class="line"></span><br><span class="line">522 packages can be updated.</span><br><span class="line">309 updates are security updates.</span><br><span class="line"></span><br><span class="line">Your Hardware Enablement Stack (HWE) is supported until April 2023.</span><br></pre></td></tr></table></figure>
-
-<p>数据包抓取详情：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 2798059919:2798059922, ack 1356453231, win 501, options [nop,nop,TS val 52760501 ecr 1686927914], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 95: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 1:30, ack 3, win 227, options [nop,nop,TS val 1687084957 ecr 52760501], length 29</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 30, win 501, options [nop,nop,TS val 52760504 ecr 1687084957], length 0</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 3:6, ack 30, win 501, options [nop,nop,TS val 52763073 ecr 1687084957], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 137: </span><br><span class="line"> </span><br><span class="line">......#仅保留了部分数据</span><br><span class="line"></span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2690, win 501, options [nop,nop,TS val 52787051 ecr 1687111489], length 0</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 138: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 2690:2762, ack 263, win 227, options [nop,nop,TS val 1687111702 ecr 52787051], length 72</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2762, win 501, options [nop,nop,TS val 52787263 ecr 1687111702], length 0</span><br><span class="line">^C</span><br><span class="line">257 packets captured</span><br><span class="line">257 packets received by filter</span><br><span class="line">0 packets dropped by kernel</span><br></pre></td></tr></table></figure>
-
-<p>数据包分析过程省略。</p>
+<p>在C/C++语言中，不能够直接使用-2147483648来代替最小负数，因为这不是一个数字，而是一个表达式。表达式的意思是对整数21473648取负，但是2147483648已经溢出了int的上限，所以定义为（-INT_MAX -1）。</p>
+<p>C中int类型是32位的，范围是-2147483648到2147483647 。<br>（1）最轻微的上溢是INT_MAX + 1 :结果是 INT_MIN;<br>（2）最严重的上溢是INT_MAX + INT_MAX :结果是-2;<br>（3）最轻微的下溢是INT_MIN - 1:结果是是INT_MAX;<br>（4）最严重的下溢是INT_MIN + INT_MIN:结果是0 。</p>
+<p>【参考文献】：<a href="https://www.cnblogs.com/yangxin6017/p/9500867.html" target="_blank" rel="noopener">INT_MIN和INT_MAX注意事项 //C++</a></p>
+<p>思路三：分治</p>
+<p>当我们求解某些问题时，由于这些问题要处理的数据相当多，或求解过程相当复杂，使得直接求解法在时间上相当长，或者根本无法直接求出。对于这类问题，我们往往先把它分解成几个子问题，找到求出这几个子问题的解法后，再找到合适的方法，把它们组合成求整个问题的解法。如果这些子问题还较大，难以解决，可以再把它们分成几个更小的子问题，以此类推，直至可以直接求出解为止。这就是<a href="https://baike.baidu.com/item/分治策略" target="_blank" rel="noopener">分治策略</a>的基本思想。</p>
 
 
                 <hr>
@@ -226,12 +238,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2020/07/04/2020-07-04-53-Easy-Maximum-Subarray/" data-toggle="tooltip" data-placement="top" title="LeetCode-53.[Easy] Maximum Subarray">&larr; Previous Post</a>
+                            <a href="/2020/07/04/2020-07-04-88-Easy-Merge-Sorted-Array/" data-toggle="tooltip" data-placement="top" title="LeetCode-88.[Easy] Merge Sorted Array">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/" data-toggle="tooltip" data-placement="top" title="LeetCode-35.[Easy] Search Insert Position">Next Post &rarr;</a>
+                            <a href="/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/" data-toggle="tooltip" data-placement="top" title="使用tcpdump观察ARP通信过程">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -258,7 +270,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#Array" title="Array">Array</a>
                         
                     </div>
                 </section>
