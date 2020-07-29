@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          LeetCode-38.[Easy] Count and Say - Sonny的博客 | Sonny&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://easy4me.cn/2020/07/06/2020-07-06-38-Easy-Count-and-Say/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sonny&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#String" title="String">String</a>
+                        
+                    </div>
+                    <h1>LeetCode-38.[Easy] Count and Say</h1>
+                    <h2 class="subheading">String、外观数列、递归</h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2020-07-06
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p><code>Difficulty: Easy</code></p>
+<p><strong>（String、外观数列、递归）</strong></p>
+<p><a href="https://leetcode.com/problems/count-and-say/" target="_blank" rel="noopener">[38] Count and Say</a> - 外观数列</p>
+<p>The count-and-say sequence is the sequence of integers with the first five terms as following:</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>     <span class="number">1</span></span><br><span class="line"><span class="number">2.</span>     <span class="number">11</span></span><br><span class="line"><span class="number">3.</span>     <span class="number">21</span></span><br><span class="line"><span class="number">4.</span>     <span class="number">1211</span></span><br><span class="line"><span class="number">5.</span>     <span class="number">111221</span></span><br></pre></td></tr></table></figure>
+
+<p><code>1</code> is read off as <code>&quot;one 1&quot;</code> or <code>11</code>.<br><code>11</code> is read off as <code>&quot;two 1s&quot;</code> or <code>21</code>.<br><code>21</code> is read off as <code>&quot;one 2</code>, then <code>one 1&quot;</code> or <code>1211</code>.</p>
+<p>Given an integer <em>n</em> where 1 ≤ <em>n</em> ≤ 30, generate the <em>n</em>th term of the count-and-say sequence. You can do so recursively, in other words from the previous member read off the digits, counting the number of digits in groups of the same digit.</p>
+<p>Note: Each term of the sequence of integers will be represented as a string.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Input:</span> <span class="number">1</span></span><br><span class="line"><span class="string">Output:</span> <span class="string">"1"</span></span><br><span class="line"><span class="string">Explanation:</span> This is the base <span class="keyword">case</span>.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: <span class="number">4</span></span><br><span class="line">Output: <span class="string">"1211"</span></span><br><span class="line">Explanation: For n = <span class="number">3</span> <span class="keyword">the</span> term was <span class="string">"21"</span> <span class="keyword">in</span> which we have <span class="literal">two</span> groups <span class="string">"2"</span> <span class="keyword">and</span> <span class="string">"1"</span>, <span class="string">"2"</span> can be <span class="built_in">read</span> <span class="keyword">as</span> <span class="string">"12"</span> which means frequency = <span class="number">1</span> <span class="keyword">and</span> <span class="built_in">value</span> = <span class="number">2</span>, <span class="keyword">the</span> same way <span class="string">"1"</span> is <span class="built_in">read</span> <span class="keyword">as</span> <span class="string">"11"</span>, so <span class="keyword">the</span> answer is <span class="keyword">the</span> concatenation <span class="keyword">of</span> <span class="string">"12"</span> <span class="keyword">and</span> <span class="string">"11"</span> which is <span class="string">"1211"</span>.</span><br></pre></td></tr></table></figure>
+
+<p>计数序列是具有前五个项的整数序列，如下所示：</p>
+<ol>
+<li>1</li>
+<li>11</li>
+<li>21</li>
+<li>1211</li>
+<li>111221</li>
+</ol>
+<ul>
+<li>1被读出为“一个1”或11。</li>
+<li>11被读出为“两个1”或21。</li>
+<li>21被读出为“一个2，然后一个1”或1211。</li>
+</ul>
+<p>给定一个整数n，其中1≤n≤30，则生成计数序列的第n个项。 您可以递归地执行此操作，换句话说，从上一个成员中读取数字，然后对同一数字组中的数字进行计数。</p>
+<p>注意:整数序列中的每一项都将表示为字符串。</p>
+<p>范例1：输入1, 输出：“ 1”, 说明：这是基本情况。<br>范例2：输入4, 输出：“ 1211”, 说明：对于n = 3，术语为“ 21”，其中我们有两组“ 2”和“ 1”，“ 2”可以读作“ 12”，这意味着频率= 1和值= 2，相同的用法是 1”表示为“ 11”，因此答案是“ 12”和“ 11”（即“ 1211”）的串联。</p>
+<p>题目解释：初次看题目，并不明白题目说的是啥玩意，冷静一下头脑……</p>
+<p>根据博客园上的一位博主的描述[<a href="https://www.cnblogs.com/mark2018/p/9384663.html" target="_blank" rel="noopener">38. Count and Say 题目解释</a>]，逐渐明白了是怎么回事：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">原题的意思就是用一个新的字符串描述上一个字符串，用数字表示上一个：</span><br><span class="line">当n=<span class="number">1</span>时：输出<span class="number">1</span>；</span><br><span class="line">当n=<span class="number">2</span>时，解释<span class="number">1</span>，<span class="number">1</span>读作<span class="number">1</span>个 ，表示为<span class="number">11</span>；</span><br><span class="line">当n=<span class="number">3</span>时，解释上一个<span class="number">11</span>，读作<span class="number">2</span>个<span class="number">1</span>，表示为<span class="number">21</span>；（注意相同数字的描述）</span><br><span class="line">当n=<span class="number">4</span>时，解释上一个<span class="number">21</span>，读作<span class="number">1</span>个<span class="number">2</span>，一个<span class="number">1</span>，表示为<span class="number">1211</span>；</span><br><span class="line">当n=<span class="number">5</span>时，解释上一个<span class="number">1211</span>，读作<span class="number">1</span>个<span class="number">1</span>，<span class="number">1</span>个<span class="number">2</span>，<span class="number">2</span>个<span class="number">1</span>，表示为<span class="number">111221</span>；</span><br><span class="line">当n=<span class="number">6</span>时，解释上一个<span class="number">111221</span>，读作<span class="number">3</span>个<span class="number">1</span>，<span class="number">2</span>个<span class="number">2</span>，<span class="number">1</span>个<span class="number">1</span>，表示为<span class="number">312211</span>；</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>这个问题重点首先是要读懂题目。然后在想这个过程的时候，可能会想到，会不会出现连续十几个一样的数字，比如1111111111，读作“ten 1”，然后转换成101。实际上，有大神已经证明，这个序列里的数不会超过4。具体证明原文地址已经在LeetCode上失效了。【<a href="https://blog.csdn.net/coder_orz/article/details/51702322" target="_blank" rel="noopener">参考文献</a>】 </p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Proof <span class="keyword">by</span> exhaustion <span class="keyword">and</span> contrapositive:</span><br><span class="line"></span><br><span class="line">In order <span class="keyword">for</span> <span class="keyword">a</span> <span class="built_in">number</span> greater than <span class="number">4</span> <span class="built_in">to</span> be created, there must be <span class="keyword">a</span> series <span class="keyword">of</span> numbers n&gt;<span class="number">4</span> <span class="keyword">in</span> <span class="built_in">length</span> all <span class="keyword">the</span> same digit. Therefore, there is <span class="keyword">a</span> subset <span class="keyword">of</span> that series where <span class="keyword">the</span> count would only reach <span class="number">4.</span> Because <span class="keyword">of</span> this, <span class="keyword">any</span> proof <span class="keyword">for</span> <span class="keyword">the</span> existence <span class="keyword">of</span> <span class="keyword">a</span> chain resulting <span class="keyword">in</span> <span class="keyword">a</span> <span class="built_in">number</span> greater than <span class="number">4</span> is also <span class="keyword">a</span> proof <span class="keyword">for</span> <span class="keyword">the</span> existence <span class="keyword">of</span> <span class="keyword">a</span> <span class="number">4</span>-chain. Using <span class="keyword">the</span> proof <span class="keyword">by</span> contrapositive, this means that <span class="keyword">if</span> <span class="number">4</span>-chains are proved <span class="built_in">to</span> be impossible, <span class="keyword">then</span> <span class="keyword">any</span> n-chain <span class="keyword">with</span> n&gt;<span class="number">4</span> is also impossible.</span><br><span class="line"></span><br><span class="line">In order <span class="built_in">to</span> <span class="built_in">start</span> <span class="keyword">with</span> <span class="keyword">a</span> chain <span class="keyword">with</span> numbers greater than <span class="number">4</span>, you must assume that <span class="keyword">a</span> <span class="number">4</span>-chain is possible <span class="keyword">in</span> <span class="keyword">the</span> <span class="keyword">first</span> place, which is circular reasoning, <span class="keyword">and</span> so cannot be used <span class="keyword">as</span> <span class="keyword">an</span> initial point. It is further impossible <span class="built_in">to</span> have <span class="keyword">a</span> negative <span class="built_in">value</span>, since <span class="keyword">the</span> counting numbers <span class="built_in">do</span> <span class="keyword">not</span> <span class="built_in">include</span> them.</span><br><span class="line"></span><br><span class="line">Therefore, <span class="keyword">the</span> only chains able <span class="built_in">to</span> <span class="built_in">create</span> <span class="keyword">a</span> <span class="number">4</span> (<span class="keyword">at</span> least <span class="keyword">the</span> <span class="keyword">first</span> <span class="literal">one</span>) are <span class="number">0000</span>, <span class="number">1111</span>, <span class="number">2222</span>, <span class="keyword">or</span> <span class="number">3333.</span></span><br><span class="line"></span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -&gt; <span class="number">40</span> </span><br><span class="line">The <span class="number">0000</span> is <span class="built_in">read</span> <span class="literal">zero</span> <span class="number">0</span>, <span class="literal">zero</span> <span class="number">0</span>, which must come <span class="built_in">from</span> . Since there is nothing present, <span class="keyword">it</span> could <span class="keyword">in</span> theory occur anywhere <span class="keyword">in</span> <span class="keyword">the</span> <span class="keyword">string</span>. However, since they would be next <span class="built_in">to</span> <span class="keyword">each</span> other, <span class="keyword">if</span> <span class="keyword">the</span> <span class="number">0</span> is repeated <span class="keyword">as</span> would be neccessary, <span class="keyword">the</span> zeros would <span class="built_in">add</span> together, resulting <span class="keyword">in</span> just <span class="literal">zero</span> <span class="number">0</span>, leaving only <span class="number">20</span>, <span class="keyword">not</span> <span class="number">40.</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> -&gt; <span class="number">41</span> </span><br><span class="line">The <span class="number">1111</span> is <span class="built_in">read</span> <span class="literal">one</span> <span class="number">1</span>, <span class="literal">one</span> <span class="number">1</span> (<span class="keyword">or</span> <span class="number">11</span>), which translates <span class="built_in">to</span> <span class="number">21</span>, <span class="keyword">not</span> <span class="number">1111.</span> This contradicts <span class="keyword">the</span> assumption that there is <span class="keyword">a</span> way <span class="built_in">to</span> <span class="built_in">get</span> <span class="number">1111</span>, <span class="keyword">and</span> so prevents <span class="number">4</span> <span class="keyword">or</span> greater <span class="built_in">from</span> appearing. Therefore, <span class="number">1</span>s cannot reach <span class="number">4.</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span> <span class="number">2</span> <span class="number">2</span> <span class="number">2</span> -&gt; <span class="number">42</span> </span><br><span class="line">The <span class="number">2222</span> is <span class="built_in">read</span> <span class="literal">two</span> <span class="number">2</span>, <span class="literal">two</span> <span class="number">2</span> (<span class="keyword">or</span> <span class="number">22</span> <span class="number">22</span>), which is identical <span class="built_in">to</span> <span class="keyword">the</span> output. Since <span class="keyword">the</span> input maps <span class="built_in">to</span> itself, there is no way <span class="built_in">to</span> leave that cycle, <span class="keyword">or</span> <span class="keyword">it</span> already would have. If <span class="number">2222</span> exists <span class="keyword">in</span> <span class="keyword">the</span> input, <span class="keyword">then</span> <span class="number">2222</span> must have mapped <span class="built_in">to</span> <span class="keyword">it</span>. It cannot reach <span class="number">42.</span> Therefore, <span class="number">2</span>s cannot reach <span class="number">4.</span></span><br><span class="line"></span><br><span class="line"><span class="number">3</span> <span class="number">3</span> <span class="number">3</span> <span class="number">3</span> -&gt; <span class="number">43</span> </span><br><span class="line">The <span class="number">3333</span> is <span class="built_in">read</span> <span class="literal">three</span> <span class="number">3</span>, <span class="literal">three</span> <span class="number">3</span> (<span class="keyword">or</span> <span class="number">333</span> <span class="number">333</span>). This <span class="keyword">in</span> turn would <span class="built_in">require</span> <span class="number">333</span> <span class="number">333</span> <span class="number">333.</span> This fails <span class="keyword">in</span> <span class="literal">two</span> respects. First, that <span class="keyword">the</span> previous inputs would <span class="keyword">not</span> <span class="built_in">merge</span> <span class="built_in">to</span> <span class="number">63</span> <span class="keyword">or</span> <span class="number">93.</span> The <span class="keyword">second</span>, that <span class="keyword">the</span> sequence eventually traces back <span class="built_in">to</span> <span class="keyword">the</span> origin, <span class="number">1.</span> Since <span class="keyword">it</span> keeps increasing <span class="keyword">in</span> <span class="built_in">length</span> <span class="keyword">as</span> <span class="keyword">the</span> <span class="built_in">number</span> <span class="keyword">of</span> rounds since <span class="keyword">the</span> <span class="built_in">start</span> decreases, <span class="keyword">it</span> cannot have started <span class="keyword">at</span> <span class="number">1.</span> Therefore, <span class="number">3</span>s cannot reach <span class="number">4.</span></span><br><span class="line"></span><br><span class="line">As every possible <span class="keyword">case</span> has been examined, <span class="keyword">and</span> <span class="literal">none</span> can reach <span class="keyword">a</span> <span class="number">4</span> <span class="keyword">while</span> starting <span class="keyword">at</span> <span class="keyword">the</span> given beginning (<span class="number">1</span>), <span class="keyword">it</span> is <span class="keyword">not</span> possible <span class="keyword">for</span> <span class="keyword">a</span> <span class="number">4</span>-chain <span class="built_in">to</span> occur, meaning <span class="keyword">a</span> <span class="number">4</span> cannot appear <span class="keyword">in</span> <span class="keyword">any</span> valid <span class="keyword">string</span> <span class="keyword">for</span> this problem. Further, <span class="keyword">as</span> stated above, since <span class="keyword">a</span> <span class="number">4</span>-chain is impossible, so too are all n-chains <span class="keyword">with</span> n&gt;<span class="number">4</span>, so no <span class="built_in">number</span> greater than <span class="number">4</span> can appear either.</span><br></pre></td></tr></table></figure>
+
+<p>代码是复制的，这题没做出来：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">countAndSay</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(n &lt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        <span class="built_in">string</span> res = <span class="string">"1"</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> t = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;res.length();j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(res[j] == res[j<span class="number">-1</span>]) </span><br><span class="line">                    count++;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    t.push_back(count+<span class="string">'0'</span>);</span><br><span class="line">                    t.push_back(res[j<span class="number">-1</span>]);</span><br><span class="line">                    count = <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            t.push_back(count+<span class="string">'0'</span>);</span><br><span class="line">            t.push_back(res[res.length()<span class="number">-1</span>]);</span><br><span class="line">            res = t;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/07/06/2020-07-06-58-Easy-Length-of-Last-Word/" data-toggle="tooltip" data-placement="top" title="LeetCode-58.[Easy] Length of Last Word">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/07/06/2020-07-06-28-Easy-Implement-strStr/" data-toggle="tooltip" data-placement="top" title="LeetCode-28.[Easy] Implement strStr()">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#String" title="String">String</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.greenday666.xyz" target="_blank">Zzn-Greenday</a></li>
+                    
+                        <li><a href="https://github.com/kasuganosoras/cxk-ball" target="_blank">CXK plays basketball</a></li>
+                    
+                        <li><a href="http://github.com/kelseyhightower/nocode" target="_blank">Nocode</a></li>
+                    
+                        <li><a href="https://github.com/maebert/themostdangerouswritingapp" target="_blank">写作者的噩梦源泉</a></li>
+                    
+                        <li><a href="https://github.com/bestony/logoly" target="_blank">Logoly</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/sonnyshu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6820316356">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/husonny">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sonny&#39;s Blog 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://easy4me.cn">Sonny</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=husonny&repo=husonny.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://easy4me.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

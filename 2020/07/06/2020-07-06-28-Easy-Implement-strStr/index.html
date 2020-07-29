@@ -13,11 +13,11 @@
 
     <title>
         
-          Sonny的博客 | Sonny&#39;s Blog
+          LeetCode-28.[Easy] Implement strStr() - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/06/2020-07-06-28-Easy-Implement-strStr/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -144,405 +144,129 @@
 
 
     <!-- Main Content -->
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>Sonny&#39;s Blog</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading">Why is my time slipping away ?</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+                        
+                          <a class="tag" href="/tags/#String" title="String">String</a>
+                        
+                    </div>
+                    <h1>LeetCode-28.[Easy] Implement strStr()</h1>
+                    <h2 class="subheading">String、KMP</h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2020-07-06
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
-
-<!-- USE SIDEBAR -->
     <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <!-- Main Content -->
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+                <p><code>Difficulty: Easy</code></p>
+<p><strong>（String、KMP）</strong></p>
+<p><a href="https://leetcode.com/problems/implement-strstr/" target="_blank" rel="noopener">[28] Implement strStr()</a> - 实现 strStr()</p>
+<p>Implement <a href="http://www.cplusplus.com/reference/cstring/strstr/" target="_blank" rel="noopener">strStr()</a>.</p>
+<p>Return the index of the first occurrence of needle in haystack, or <strong>-1</strong> if needle is not part of haystack.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> haystack = <span class="string">"hello"</span>, needle = <span class="string">"ll"</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
 
-<div class="post-preview">
+<p><strong>Example 2:</strong></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Input:</span> haystack = <span class="string">"aaaaa"</span>, needle = <span class="string">"bba"</span></span><br><span class="line"><span class="symbol">Output:</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
 
-    <a href="/2020/07/06/2020-07-06-58-Easy-Length-of-Last-Word/">
-        <h2 class="post-title">
-            LeetCode-58.[Easy] Length of Last Word
-        </h2>
-        <h3 class="post-subtitle">
-            String
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String）
-[58] Length of Last Word - 最后一个单词的长度
-Given a string s consists of upper/lower-case alphabets and empty space characters &#39; &#39;, return the length of last word (last w......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-06
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/06/2020-07-06-38-Easy-Count-and-Say/">
-        <h2 class="post-title">
-            LeetCode-38.[Easy] Count and Say
-        </h2>
-        <h3 class="post-subtitle">
-            String、外观数列、递归
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String、外观数列、递归）
-[38] Count and Say - 外观数列
-The count-and-say sequence is the sequence of integers with the first five terms as following:
-123451.     12.     113.     214.     1211......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-06
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/06/2020-07-06-28-Easy-Implement-strStr/">
-        <h2 class="post-title">
-            LeetCode-28.[Easy] Implement strStr()
-        </h2>
-        <h3 class="post-subtitle">
-            String、KMP
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String、KMP）
-[28] Implement strStr() - 实现 strStr()
-Implement strStr().
-Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
-Exam......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-06
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/05/2020-07-05-20-Easy-Valid-Parentheses/">
-        <h2 class="post-title">
-            LeetCode-20.[Easy] Valid Parentheses
-        </h2>
-        <h3 class="post-subtitle">
-            String、栈
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String、栈）
-[20] Valid Parentheses
-Given a string containing just the characters &#39;(&#39;, &#39;)&#39;, &#39;{&#39;, &#39;}&#39;, &#39;[&#39; and &#39;]&#39;, determine if the in......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-05
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/05/2020-07-05-14-Easy-Longest-Common-Prefix/">
-        <h2 class="post-title">
-            LeetCode-14.[Easy] Longest Common Prefix
-        </h2>
-        <h3 class="post-subtitle">
-            String、水平扫描、垂直扫描、分而治之、二进制搜索
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String、水平扫描、垂直扫描、分而治之、二进制搜索）
-[14] Longest Common Prefix
-Write a function to find the longest common prefix string amongst an array of strings.
-If there is no common prefix, return......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-05
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/05/2020-07-05-13-Easy-Roman-to-Integer/">
-        <h2 class="post-title">
-            LeetCode-13.[Easy] Roman to Integer
-        </h2>
-        <h3 class="post-subtitle">
-            String
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（String、HashMap）
-[13] Roman to Integer
-Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
-12345678Symbol       ValueI             1V             5X ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-05
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/04/2020-07-04-88-Easy-Merge-Sorted-Array/">
-        <h2 class="post-title">
-            LeetCode-88.[Easy] Merge Sorted Array
-        </h2>
-        <h3 class="post-subtitle">
-            数组
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（数组）
-[88] Merge Sorted Array
-Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1as one sorted array.
-Note:
-
-The number of elements initialized in nums1 and nums......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-04
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/04/2020-07-04-53-Easy-Maximum-Subarray/">
-        <h2 class="post-title">
-            LeetCode-53.[Easy] Maximum Subarray
-        </h2>
-        <h3 class="post-subtitle">
-            数组、动态规划、贪心、分治
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（数组、动态规划、贪心、分治）
-[53] Maximum Subarray
-Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
-Examp......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-04
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/">
-        <h2 class="post-title">
-            使用tcpdump观察ARP通信过程
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-04
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/">
-        <h2 class="post-title">
-            LeetCode-35.[Easy] Search Insert Position
-        </h2>
-        <h3 class="post-subtitle">
-            数组、二分查找
-        </h3>
-        <div class="post-content-preview">
-            Difficulty: Easy
-（数组、二分查找）
-[35] Search Insert Position
-Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were insert......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-07-03
-    </p>
-
-</div>
-<hr>
-
-
-
-<!-- Pager -->
-
-<ul class="pager">
-    
-    
-        <li class="next">
-            <a href="/page/2/">Older Posts &rarr;</a>
-        </li>
-    
+<p><strong>Clarification:</strong></p>
+<p>What should we return when <code>needle</code> is an empty string? This is a great question to ask during an interview.</p>
+<p>For the purpose of this problem, we will return 0 when <code>needle</code> is an empty string. This is consistent to C’s <a href="http://www.cplusplus.com/reference/cstring/strstr/" target="_blank" rel="noopener">strstr()</a> and Java’s <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#indexOf(java.lang.String)" target="_blank" rel="noopener">indexOf()</a>.</p>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>haystack</code> and <code>needle</code> consist only of lowercase English characters.</li>
 </ul>
+<p>实现strStr()。</p>
+<p>返回在haystack中第一次出现的指针的索引，如果指针不是haystack的一部分，返回-1。</p>
+<p>范例1：输入：haystack =“ hello”，needle =“ ll”, 输出2<br>范例2：输入：haystack =“ aaaaa”，needle =“ bba”, 输出：-1</p>
+<p>当针头是空的时候，我们应该返回什么?在面试中这是一个很好的问题。为了解决这个问题，当needle为空字符串时，我们将返回0。这与C的strstr()和Java的indexOf()是一致的。</p>
+<p><strong>本题也可采用KMP算法来求解，貌似要更简单一些，由于博主并不知道KMP算法是个什么鬼，所以还是采用传统的暴力破解法。</strong></p>
+<p>思路：这一题和求最长前缀问题<a href="https://easy4me.cn/2020/07/05/2020-07-05-14-Easy-Longest-Common-Prefix/">LeetCode-14.[Easy] Longest Common Prefix</a>有一定的相似之处，求前缀问题是不知道前缀具体是什么，需要经过不断地比较才能最终判断出，可能存在最长前缀也可能不存在。而此题是给定了一个字符串needle，要求判断出该给定字符串needle是否存在于原始字符串haystack中，存在则返回具体位置的索引，不存在返回-1；</p>
+<p>直接采用暴力破解法，先对haystack进行遍历，逐个对haystack[i]和needle[0]进行比较，若不等返回-1，若相等，则继续比较haystack[i+1]和needle[1]，只要对应元素是相等的，则一直到needle中所有字符都比较完毕完毕。判断条件：当needle[j]的索引j与其长度相等时，则说明比较完成了，这时可以直接返回i，即为所需要的索引的值。其他情况则返回-1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strStr</span><span class="params">(<span class="built_in">string</span> haystack, <span class="built_in">string</span> needle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(needle.empty())</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> m = haystack.size();</span><br><span class="line">        <span class="keyword">int</span> n = needle.size();</span><br><span class="line">        <span class="keyword">if</span>(m &lt; n)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= m - n; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> j = <span class="number">0</span>; <span class="comment">//每次j都从0开始</span></span><br><span class="line">            <span class="keyword">for</span>(; j != n; ++j) <span class="comment">//当循环没达到尾部继续执行</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//haystack[i + j]外层循环保证与内层循环同时递增</span></span><br><span class="line">                <span class="keyword">if</span>(haystack[i + j] != needle[j]) </span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(j == n) <span class="comment">//跳出外层循环</span></span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>本代码中的核心是如何判断<code>haystack[i+1]和needle[1]</code>的相等性问题，以及如何才能在满足第一个字符对应相等的情况下，保持haystack和needle同时递增，而<code>haystack[i + j] != needle[j]</code>能够同时解决上述问题。</p>
 
 
+                <hr>
 
-                <!-- 如果开启评论功能 -->
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/07/06/2020-07-06-38-Easy-Count-and-Say/" data-toggle="tooltip" data-placement="top" title="LeetCode-38.[Easy] Count and Say">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/07/05/2020-07-05-20-Easy-Valid-Parentheses/" data-toggle="tooltip" data-placement="top" title="LeetCode-20.[Easy] Valid Parentheses">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
                 
 
             </div>
+    <!-- Side Catalog Container -->
+        
+
     <!-- Sidebar Container -->
+
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <!-- no hr -->
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
+                       
+                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
                         
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#LeetCode" title="LeetCode" rel="12">LeetCode</a>
-                            
-                        
-                            
-                            <a href="/tags/#Array" title="Array" rel="6">Array</a>
-                            
-                        
-                            
-                        
-                            
-                            <a href="/tags/#String" title="String" rel="6">String</a>
-                            
-                        
-                            
+                          <a class="tag" href="/tags/#String" title="String">String</a>
                         
                     </div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-
-                        
-                            <img src="/img/avatar-sonny.jpg" />
-                        
-
-                        
-                            <p>总会有遗憾，可人生也会趋于圆满。</p>
-                        
-
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            
-                                <li>
-                                    <a target="_blank" href="https://www.zhihu.com/people/sonnyshu">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-
-                            
-                                <li>
-                                    <a target="_blank" href="http://weibo.com/6820316356">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-
-                            
-
-                            
-                                <li>
-                                    <a target="_blank"  href="https://github.com/husonny">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            
-                            
-                            
-                            
-                        </ul>
-                    </div>
-                </section>
-                
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -563,9 +287,17 @@ Given a sorted array and a target value, return the index if the target is found
                 </ul>
                 
             </div>
-        
+
+        </div>
     </div>
-</div>
+</article>
+
+
+
+
+
+
+
 
 
     <!-- Footer -->
