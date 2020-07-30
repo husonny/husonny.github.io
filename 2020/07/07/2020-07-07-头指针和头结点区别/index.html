@@ -13,11 +13,11 @@
 
     <title>
         
-          使用tcpdump观察ARP通信过程 - Sonny的博客 | Sonny&#39;s Blog
+          2020-07-07-头指针和头结点区别 - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/04/2020-07-04-使用tcpdump观察ARP通信过程/">
+    <link rel="canonical" href="http://easy4me.cn/2020/07/07/2020-07-07-头指针和头结点区别/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,14 +162,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
                         
                     </div>
-                    <h1>使用tcpdump观察ARP通信过程</h1>
+                    <h1>2020-07-07-头指针和头结点区别</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2020-07-04
+                        2020-07-07
                     </span>
                 </div>
             </div>
@@ -188,35 +188,52 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的一个TCP/IP协议。主机发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相信任的基础上的，局域网络上的主机可以自主发送ARP应答消息，其他主机收到应答报文时不会检测该报文的真实性就会将其记入本机ARP缓存；由此攻击者就可以向某一主机发送伪ARP应答报文，使其发送的信息无法到达预期的主机或到达错误的主机，这就构成了一个ARP欺骗。ARP命令可用于查询本机ARP缓存中IP地址和MAC地址的对应关系、添加或删除静态对应关系等。相关协议有RARP、代理ARP。NDP用于在IPv6中代替地址解析协议。<a href="https://baike.baidu.com/item/ARP/609343?fr=aladdin" target="_blank" rel="noopener">ARP百科</a></p>
-<p>为了深入理解网络通信和网络编程，使用两台主机以及一台连接到因特网的路由器测试网络。通过抓取该网络上的以太网帧，以获取网络通信的细节。</p>
-<p>工作原理：<strong>ARP协议能实现任意网络层地址到任意物理地址的转换。</strong>主机向自己所在的网络广播一个ARP请求，该请求包含目标机器的网络地址。此网络上的其他机器都将受到这个请求，但只有被请求的目标机器会回应一个ARP应答，其中包含自己的物理地址。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">测试环境：</span></span><br><span class="line">机器名：sonny-2019         机器名：sonnyokPC</span><br><span class="line">IP地址：192.168.108.129    IP地址：192.168.108.130 </span><br><span class="line">MAC地址： ************     MAC地址：*************</span><br><span class="line">系统：Ubuntu 18.04LTS      系统：Ubuntu 18.04LTS</span><br><span class="line">路由器：</span><br><span class="line">IP地址：192.168.1.1</span><br><span class="line">MAC地址：************</span><br><span class="line"><span class="meta">---&gt;</span><span class="bash">&gt;去因特网</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="（1）在sonnyokPC上执行："><a href="#（1）在sonnyokPC上执行：" class="headerlink" title="（1）在sonnyokPC上执行："></a>（1）在sonnyokPC上执行：</h3><p>先为<code>sonnyokPC</code>安装网络工具并查看<code>IP</code>和<code>MAC</code>地址：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install net-tools</span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
-
-<p>查看高速缓存中的所有项目：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arp -a</span><br><span class="line">? (192.168.108.130) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.2) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br><span class="line">? (192.168.108.254) at xx:xx:xx:xx:xx:xx [ether] on ens33</span><br></pre></td></tr></table></figure>
-
-<p><code>Telnet</code>协议是<code>TCP/IP</code>协议族中的一员，是<code>Internet</code>远程登陆服务的标准协议和主要方式。可以通过<code>Telnet</code>实现远程登录<code>Ubuntu</code>，安装Telnet相关组件：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openbsd-inetd</span><br><span class="line">sudo apt install telnetd</span><br><span class="line">sudo /etc/init.d/openbsd-inetd restart #重启openbsd-inetd服务</span><br><span class="line">netstat -a | grep telnet #显示和侦听端口并测试安装是否完成</span><br><span class="line">tcp    0    0 0.0.0.0:telnet     0.0.0.0:*     LISTEN</span><br></pre></td></tr></table></figure>
-
-<p>删除后再添加缓存项目：</p>
-<p>在执行<code>Telnet</code>，命令之前要先清除ARP缓存中的与<code>sonnyokPC</code>对应的项，否则ARP通信不被执行，也就无法抓取到期望的以太网帧。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo arp -d 192.168.108.130</span><br><span class="line">sudo arp -s 192.168.108.130 xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
-
-<h3 id="（2）在sonny-2019上执行："><a href="#（2）在sonny-2019上执行：" class="headerlink" title="（2）在sonny-2019上执行："></a>（2）在sonny-2019上执行：</h3><p><em>如果在执行下列名令时出现错误，应当首先考虑TCP组件是否安装完整，安装（1）的步骤安装相关组件即可。</em></p>
-<p>抓取两台主机测试网络中的以太网帧：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line"><span class="meta">#</span><span class="bash">已经开始运行：</span></span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br></pre></td></tr></table></figure>
-
-<p>开启另一个终端，执行<code>Telnet</code>命令并在两台通信主机之间建立TCP连接：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">telnet 192.168.108.130</span><br><span class="line"><span class="meta">#</span><span class="bash">开始连接</span></span><br><span class="line">Trying 192.168.108.130...</span><br><span class="line">Connected to 192.168.108.130.</span><br><span class="line">Escape character is '^]'.</span><br><span class="line">Ubuntu 18.04.2 LTS</span><br><span class="line">sonnyokPC login: sonnyok</span><br><span class="line">Password: </span><br><span class="line">Last login: Fri Jul 24 21:55:03 CST 2020 from 192.168.108.129 on pts/1</span><br><span class="line">Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.18.0-15-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https://help.ubuntu.com</span><br><span class="line"> * Management:     https://landscape.canonical.com</span><br><span class="line"> * Support:        https://ubuntu.com/advantage</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> * Canonical Livepatch is available for installation.</span><br><span class="line">   - Reduce system reboots and improve kernel security. Activate at:</span><br><span class="line">     https://ubuntu.com/livepatch</span><br><span class="line"></span><br><span class="line">522 packages can be updated.</span><br><span class="line">309 updates are security updates.</span><br><span class="line"></span><br><span class="line">Your Hardware Enablement Stack (HWE) is supported until April 2023.</span><br></pre></td></tr></table></figure>
-
-<p>数据包抓取详情：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i ens33 -ent '(dst 192.168.108.129 and src 192.168.108.130)or (dst 192.168.108.130 and src 192.168.108.129)'</span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 2798059919:2798059922, ack 1356453231, win 501, options [nop,nop,TS val 52760501 ecr 1686927914], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 95: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 1:30, ack 3, win 227, options [nop,nop,TS val 1687084957 ecr 52760501], length 29</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 30, win 501, options [nop,nop,TS val 52760504 ecr 1687084957], length 0</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 69: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [P.], seq 3:6, ack 30, win 501, options [nop,nop,TS val 52763073 ecr 1687084957], length 3</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 137: </span><br><span class="line"> </span><br><span class="line">......#仅保留了部分数据</span><br><span class="line"></span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2690, win 501, options [nop,nop,TS val 52787051 ecr 1687111489], length 0</span><br><span class="line">00:0c:29:7b:01:00 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 138: 192.168.108.130.23 &gt; 192.168.108.129.55286: Flags [P.], seq 2690:2762, ack 263, win 227, options [nop,nop,TS val 1687111702 ecr 52787051], length 72</span><br><span class="line">00:0c:29:d2:4b:a5 &gt; xx:xx:xx:xx:xx:xx, ethertype IPv4 (0x0800), length 66: 192.168.108.129.55286 &gt; 192.168.108.130.23: Flags [.], ack 2762, win 501, options [nop,nop,TS val 52787263 ecr 1687111702], length 0</span><br><span class="line">^C</span><br><span class="line">257 packets captured</span><br><span class="line">257 packets received by filter</span><br><span class="line">0 packets dropped by kernel</span><br></pre></td></tr></table></figure>
-
-<p>数据包分析过程省略。</p>
+                <h3 id="首先来看看线性表链式存储结构的定义（本文以单链表为例）："><a href="#首先来看看线性表链式存储结构的定义（本文以单链表为例）：" class="headerlink" title="首先来看看线性表链式存储结构的定义（本文以单链表为例）："></a>首先来看看线性表链式存储结构的定义（本文以单链表为例）：</h3><p>为了表示每个数据元素a<sub>i</sub>与其直接后继数据元素a<sub>i+1</sub>之间的逻辑关系，对数据元素a<sub>i</sub>来说，除了存储其本身的信息之外，还需存储一个指示其直接后继的信息（即直接后继的存储位置）。我们把存储数据元素信息的域称为数据域， 把存储直接后继位置的域称为指针域。指针域中存储的信息称做指针或链。这两部分信息组成数据元素a<sub>i</sub>的存储映像，称为结点(Node) 。</p>
+<p>n 个结点( a<sub>i</sub> 的存储映像) 链结成一个链表，即为线性表( a<sub>1</sub>, a<sub>2</sub>, a<sub>3</sub>, … , a<sub>n</sub>) 的链式存储结构，因为此链表的每个结点中只包含一个指针域，所以叫做单链衰。</p>
+<p>对于线性表来说，总得有个头有个尾，链表也不例外。我们把链表中第一个结点的存储位置叫做头指针，那么整个链表的存取就必须是从头指针开始进行了。之后的每一个结点，其实就是上一个的后继指针指向的位置。</p>
+<p>最后一个结点，其直接后继不存在，因此规定线性链表的最后一个结点指针为“空”（通常用NULL或” ^ “ 符号表示）。</p>
+<p><img src="/2020/07/07/2020-07-07-头指针和头结点区别/pic1.png" alt="无头结点链表"></p>
+<h3 id="结点是啥呢？它的运作方式是咋样的呢？"><a href="#结点是啥呢？它的运作方式是咋样的呢？" class="headerlink" title="结点是啥呢？它的运作方式是咋样的呢？"></a>结点是啥呢？它的运作方式是咋样的呢？</h3><p><strong>结点由存放数据元素的数据域和存放后继结点地址的指针域组成。</strong></p>
+<p>假设p是指向线性表第i个元素的指针，则该结点a<sub>i</sub>的数据域我们可以用p-&gt;data来表示，p -&gt;data的值是一个数据元素，结点a<sub>i</sub>的指针域可以用p-&gt;next来表示，p-&gt;next的值是一个指针。那么p-&gt;next 指向谁呢？指向第i+1个元素，即指向a<sub>i+1</sub>的指针。也就是说，如果p-&gt;data=a<sub>i</sub>，那么p-&gt;next-&gt;data=a<sub>i+1</sub>。</p>
+<p><img src="/2020/07/07/2020-07-07-头指针和头结点区别/pic2.png" alt="结点"></p>
+<h3 id="那么什么叫头结点呢？"><a href="#那么什么叫头结点呢？" class="headerlink" title="那么什么叫头结点呢？"></a>那么什么叫头结点呢？</h3><p>在单链表的第一个结点前附设的额外的一个结点，称为头结点。头结点的数据域可以不存储任何信息也可以存储如线性表的长度等附加信息，头结点的指针域存储指向第一个结点的指针。</p>
+<p><strong>头结点的存在完全是为了更加方便的对链表进行操作。</strong></p>
+<p><img src="/2020/07/07/2020-07-07-头指针和头结点区别/pic3.png" alt="有头结点链表结构"></p>
+<p><strong>若线性表为空表，则头结点的指针域为”空”：</strong></p>
+<p><img src="/2020/07/07/2020-07-07-头指针和头结点区别/pic4.png" alt="空链表"></p>
+<p><strong>若带有头结点的单链表：</strong></p>
+<p><img src="/2020/07/07/2020-07-07-头指针和头结点区别/pic5.png" alt="有头结点链表"></p>
+<h3 id="头指针和头结点的异同："><a href="#头指针和头结点的异同：" class="headerlink" title="头指针和头结点的异同："></a>头指针和头结点的异同：</h3><p><strong>头指针：</strong></p>
+<ul>
+<li>头指针是指链表指向第一个结点的指针，若链表有头结点，则是指向头结点的指针</li>
+<li>头指针具有标识作用，所以常用头指针冠以链表的名字</li>
+<li>无论链表是否为空，头指针均不为空。头指针是链表由与必要元素</li>
+</ul>
+<p><strong>头结点：</strong></p>
+<ul>
+<li>头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据域一般无意义(也可存放链表的长度)</li>
+<li>有了头结点，对在第一元素的结点前插入结点和删除第一结点，其操作与其它结点的操作就统一了</li>
+<li>头结点不一定是链表必须要素</li>
+</ul>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ol>
+<li><p>头结点和头指针均为第一个结点（首元结点）之前的元素，头结点和第一个结点是有区别的，第一个结点（首元结点）才是链表数据工作的真正开始，而头结点只是在做预备工作。</p>
+</li>
+<li><p>头结点不一定存在，但头指针是一定存在的且是必需的。因此存在两种链表：</p>
+<ul>
+<li>有头结点单链表</li>
+<li>无头结点单链表</li>
+<li>有头结点和无头结点单链表的区别为：指向不同、数据域不同、简洁性不同。<ol>
+<li>指向不同：有头结点单链表的头指针指向头结点。无头结点单链表的头指针指向第一个结点（首元结点）。</li>
+<li>数据域不同：有头结点单链表的头结点数据域可以保存信息也可以不保存信息（一般无意义）。无头结点单链表不存在头结点数据域。</li>
+<li>简洁性不同：有头结点单链表减少了单链表添加删除时特殊情况的判断，减少了程序的复杂性。无头结点单链表删除或添加时都得需要判断一次第一个结点（首元结点）。</li>
+</ol>
+</li>
+<li>举个栗子，如果你需要删除一个链表中的节点，如果是无头结点你就要考虑删除的是不是头结点的情况，万一删除了头结点那么整个链表都不复存在（虽然还在占用内存）；而对于有表头节点，因为存有数据的都不是头结点，删除的时候无须考虑删除头结点导致链表找不到的情况发生。</li>
+</ul>
+</li>
+</ol>
+<p><strong>！！！至于说的表头指针、表头结点，这是图的存储结构中邻接表范围中的概念。具体理解同上所述。</strong></p>
+<p>参考文献：《大话数据结构》——程杰著，清华大学出版社</p>
 
 
                 <hr>
@@ -225,13 +242,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/07/04/2020-07-04-53-Easy-Maximum-Subarray/" data-toggle="tooltip" data-placement="top" title="LeetCode-53.[Easy] Maximum Subarray">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2020/07/03/2020-07-03-35-Easy-Search-Insert-Position/" data-toggle="tooltip" data-placement="top" title="LeetCode-35.[Easy] Search Insert Position">Next Post &rarr;</a>
+                            <a href="/2020/07/06/2020-07-06-67-Easy-Add-Binary/" data-toggle="tooltip" data-placement="top" title="LeetCode-67.[Easy] Add Binary">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -258,7 +271,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#TCP" title="TCP">TCP</a>
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
                         
                     </div>
                 </section>
