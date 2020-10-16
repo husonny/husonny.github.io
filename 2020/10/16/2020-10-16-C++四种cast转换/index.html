@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          C++四种cast转换 - Sonny的博客 | Sonny&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://easy4me.cn/2020/10/16/2020-10-16-C++四种cast转换/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Sonny&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                        
+                    </div>
+                    <h1>C++四种cast转换</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by Sonny on
+                        2020-10-16
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="C-风格（C-style）强制转换"><a href="#C-风格（C-style）强制转换" class="headerlink" title="C 风格（C-style）强制转换"></a>C 风格（C-style）强制转换</h3><p>   (T) expression // cast expression to be of type T<br>   函数风格（Function-style）强制转型使用这样的语法：<br>   T(expression) // cast expression to be of type T<br>   这两种形式之间没有本质上的不同，它纯粹就是一个把括号放在哪的问题。我把这两种形式称为旧风格（old-style）的强制转型。</p>
+<h3 id="C-的4种cast类型转换"><a href="#C-的4种cast类型转换" class="headerlink" title="C++的4种cast类型转换"></a>C++的4种cast类型转换</h3><p>A: 转换的含义是通过改变一个变量的类型为别的类型从而改变该变量的表示方式。为了类型转换一个简单对象为另一个对象你会使用传统的类型转换操作符。比如，为了转换一个类型为doubole的浮点数的指针到整型：<br>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i; </span><br><span class="line"><span class="keyword">double</span> d; </span><br><span class="line"></span><br><span class="line">i = (<span class="keyword">int</span>) d; </span><br><span class="line"><span class="comment">//或者： </span></span><br><span class="line"><span class="comment">//i = int (d);</span></span><br></pre></td></tr></table></figure>
+
+<p>对于具有标准定义转换的简单类型而言工作的很好。然而，这样的转换符也能不分皂白的应用于类（class）和类的指针。ANSI-C++标准定义了四个新的转换符：’reinterpret_cast’, ‘static_cast’, ‘dynamic_cast’ 和’const_cast’，目的在于控制类(class)之间的类型转换。<br>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reinterpret_cast</span>&lt;new_type&gt;(expression) </span><br><span class="line"><span class="keyword">dynamic_cast</span>&lt;new_type&gt;(expression) </span><br><span class="line"><span class="keyword">static_cast</span>&lt;new_type&gt;(expression) </span><br><span class="line"><span class="keyword">const_cast</span>&lt;new_type&gt;(expression)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-reinterpret-cast"><a href="#1-reinterpret-cast" class="headerlink" title="1.reinterpret_cast"></a>1.reinterpret_cast</h3><p>‘reinterpret_cast’转换一个指针为其它类型的指针。它也允许从一个指针转换为整数类型。反之亦然。（译注：是指针具体的地址值作为整数值？）<br>这个操作符能够在非相关的类型之间转换。操作结果只是简单的从一个指针到别的指针的值的二进制拷贝。在类型之间指向的内容不做任何类型的检查和转换。</p>
+<p>特意用于底层的强制转型，导致实现依赖（implementation-dependent）（就是说，不可移植）的结果，例如，将一个指针转型为一个整数。这样的强制转型在底层代码以外应该极为罕见。 </p>
+<p>如果情况是从一个指针到整型的拷贝，内容的解释是系统相关的，所以任何的实现都不是方便的。一个转换到足够大的整型能够包含它的指针是能够转换回有效的指针的。 </p>
+<p>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span>&#125;; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span>&#125;; </span><br><span class="line"></span><br><span class="line">A * a = <span class="keyword">new</span> A; </span><br><span class="line">B * b = <span class="keyword">reinterpret_cast</span>&lt;B *&gt;(a);</span><br></pre></td></tr></table></figure>
+
+<p>‘reinterpret_cast’就像传统的类型转换一样对待所有指针的类型转换。 </p>
+<h3 id="2-static-cast"><a href="#2-static-cast" class="headerlink" title="2.static_cast"></a>2.static_cast</h3><p>‘static_cast’允许执行任意的隐式转换和相反转换动作。（即使它是不允许隐式的） </p>
+<p>应用到类的指针上，意思是说它允许子类类型的指针转换为父类类型的指针（这是一个有效的隐式转换），同时，也能够执行相反动作：转换父类为它的子类。 </p>
+<p>可以被用于强制隐型转换（例如，non-const 对象转型为 const 对象，int 转型为 double，等等），它还可以用于很多这样的转换的反向转换（例如，void* 指针转型为有类型指针，基类指针转型为派生类指针），但是它不能将一个 const 对象转型为 non-const 对象（只有 const_cast 能做到），它最接近于C-style的转换。 </p>
+<p>在这最后例子里，被转换的父类没有被检查是否与目的类型相一致。<br>代码： </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span>&#125;; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base &#123;&#125;; </span><br><span class="line"></span><br><span class="line">Base *a   = <span class="keyword">new</span> Base; </span><br><span class="line">Derived *b = <span class="keyword">static_cast</span>&lt;Derived *&gt;(a);</span><br></pre></td></tr></table></figure>
+
+<p>‘static_cast’除了操作类型指针，也能用于执行类型定义的显式的转换，以及基础类型之间的标准转换: </p>
+<p>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = <span class="number">3.14159265</span>; </span><br><span class="line"><span class="keyword">int</span>   i = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(d);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-dynamic-cast"><a href="#3-dynamic-cast" class="headerlink" title="3.dynamic_cast"></a>3.dynamic_cast</h3><p>‘dynamic_cast’ 只用于对象的指针和引用。当用于多态类型时，它允许任意的隐式类型转换以及相反过程。不过，与static_cast不同，在后一种情况里（注：即隐式转换的相反过程），dynamic_cast会检查操作是否有效。也就是说，它会检查转换是否会返回一个被请求的有效的完整对象。 </p>
+<p>主要用于执行“安全的向下转型（safe downcasting）”，也就是说，要确定一个对象是否是一个继承体系中的一个特定类型。它是唯一不能用旧风格语法执行的强制转型，也是唯一可能有重大运行时代价的强制转型。 </p>
+<p>检测在运行时进行。如果被转换的指针不是一个被请求的有效完整的对象指针，返回值为NULL.<br>代码： </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span> <span class="function"><span class="keyword">virtual</span> <span class="title">dummy</span><span class="params">()</span> </span>&#123;&#125; &#125;; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base &#123;&#125;; </span><br><span class="line"></span><br><span class="line">Base* b1 = <span class="keyword">new</span> Derived; </span><br><span class="line">Base* b2 = <span class="keyword">new</span> Base; </span><br><span class="line"></span><br><span class="line">Derived* d1 = <span class="keyword">dynamic_cast</span>&lt;Derived *&gt;(b1);      <span class="comment">// succeeds </span></span><br><span class="line">Derived* d2 = <span class="keyword">dynamic_cast</span>&lt;Derived *&gt;(b2);      <span class="comment">// fails: returns 'NULL'</span></span><br></pre></td></tr></table></figure>
+
+<p>如果一个引用类型执行了类型转换并且这个转换是不可能的，一个bad_cast的异常类型被抛出：<br>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span> <span class="function"><span class="keyword">virtual</span> <span class="title">dummy</span><span class="params">()</span> </span>&#123;&#125; &#125;; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base &#123; &#125;; </span><br><span class="line"></span><br><span class="line">Base* b1 = <span class="keyword">new</span> Derived; </span><br><span class="line">Base* b2 = <span class="keyword">new</span> Base; </span><br><span class="line"></span><br><span class="line">Derived d1 = <span class="keyword">dynamic_cast</span>&lt;Derived &amp;*&gt;(b1);      <span class="comment">// succeeds </span></span><br><span class="line">Derived d2 = <span class="keyword">dynamic_cast</span>&lt;Derived &amp;*&gt;(b2);      <span class="comment">// fails: exception thrown</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-const-cast"><a href="#4-const-cast" class="headerlink" title="4.const_cast"></a>4.const_cast</h3><p>这个转换类型操纵传递对象的const属性，或者是设置或者是移除。 一般用于强制消除对象的常量性。它是唯一能做到这一点的 C++ 风格的强制转型。</p>
+<p>代码: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> &#123;</span>&#125;; </span><br><span class="line"><span class="keyword">const</span> C *a = <span class="keyword">new</span> C; </span><br><span class="line">C *b = <span class="keyword">const_cast</span>&lt;C *&gt;(a);</span><br></pre></td></tr></table></figure>
+
+<p>其它三种操作符是不能修改一个对象的常量性的。<br>注意：’const_cast’也能改变一个类型的volatile qualifier。 </p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>旧风格的强制转型依然合法，但是新的形式更可取。首先，在代码中它们更容易识别（无论是人还是像 grep 这样的工具都是如此），这样就简化了在代码中寻找类型系统被破坏的地方的过程。第二，更精确地指定每一个强制转型的目的，使得编译器诊断使用错误成为可 能。例如，如果你试图使用一个 const_cast 以外的新风格强制转型来消除常量性，你的代码将无法编译。 </p>
+<h4 id="1-dynamic-cast-vs-static-cast"><a href="#1-dynamic-cast-vs-static-cast" class="headerlink" title="1.dynamic_cast .vs. static_cast"></a>1.dynamic_cast .vs. static_cast</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> &#123;</span> ... &#125;; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> B &#123; ... &#125;; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(B* pb)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">  D* pd1 = <span class="keyword">dynamic_cast</span>&lt;D*&gt;(pb); </span><br><span class="line">  D* pd2 = <span class="keyword">static_cast</span>&lt;D*&gt;(pb); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即dynamic_cast可用于继承体系中的向下转型，即将基类指针转换为派生类指针，比static_cast更严格更安全。 dynamic_cast在执行效率上比static_cast要差一些,但static_cast在更宽上范围内可以完成映射,这种不加限制的映射伴随 着不安全性。static_cast覆盖的变换类型除类层次的静态导航以外,还包括无映射变换,窄化变换(这种变换会导致对象切片,丢失信息)，用 VOID*的强制变换,隐式类型变换等… </p>
+<h4 id="2-static-cast-vs-reinterpret-cast"><a href="#2-static-cast-vs-reinterpret-cast" class="headerlink" title="2.static_cast .vs. reinterpret_cast"></a>2.static_cast .vs. reinterpret_cast</h4><p>   reinterpret_cast是为了映射到一个完全不同类型的意思,这个关键词在我们需要把类型映射回原有类型时用到它。我们映射到的类型仅仅是为了故弄玄虚和其他目的，这是所有映射中最危险的.(这句话是C++编程思想中的原话) </p>
+<p>   static_cast 和 reinterpret_cast 操作符修改了操作数类型. 它们不是互逆的; static_cast 在编译时使用类型信息执行转换, 在转换执行必要的检测(诸如指针越界计算, 类型检查). 其操作数相对是安全的. 另一方面, reinterpret_cast 仅仅是重新解释了给出的对象的比特模型而没有进行二进制转换, 例子如下: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n=<span class="number">9</span>; <span class="keyword">double</span> d=<span class="keyword">static_cast</span> &lt; <span class="keyword">double</span> &gt; (n);</span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中, 我们将一个变量从 int 转换到 double. 这些类型的二进制表达式是不同的. 要将整数 9 转换到 双精度整数 9, static_cast 需要正确地为双精度整数 d 补足比特位. 其结果为 9.0. 而reinterpret_cast 的行为却不同: </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n=<span class="number">9</span>; </span><br><span class="line"><span class="keyword">double</span> d=<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">double</span> &amp; &gt; (n);</span><br></pre></td></tr></table></figure>
+
+<p>这次, 结果有所不同. 在进行计算以后, d 包含无用值. 这是因为 reinterpret_cast 仅仅是复制 n 的比特位到 d, 没有进行必要的分析。</p>
+<h4 id="3-static-cast和dynamic-cast比较"><a href="#3-static-cast和dynamic-cast比较" class="headerlink" title="3.static_cast和dynamic_cast比较"></a>3.static_cast和dynamic_cast比较</h4><ol>
+<li>dynamic_cast:运行时检查，用于多态的类型转换（upcast，downcast和crosscast），只能转换指针和引用。</li>
+<li>static_cast:编译时检查，用于非多态的转换，可以转换指针及其他，比如：int-&gt;float还可以逆隐式转换，比如：比 如：int-&gt;char。It is left to the programmer to ensure that the results of a <strong>static_cast</strong> conversion are safe.3。对于指针的转换：The <strong>dynamic_cast</strong> and <strong>static_cast</strong> operators move a pointer throughout a class hierarchy. However, <strong>static_cast</strong> relies exclusively on the information provided in the cast statement and can therefore be unsafe.这与dynamic_cast使用rtti的检查是不同的。</li>
+</ol>
+<p>原文链接：<a href="https://blog.csdn.net/visame/article/details/2700763?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param" target="_blank" rel="noopener">CSDN-visame-C++的四种cast操作符的区别</a></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/10/16/2020-10-16-C++静态成员/" data-toggle="tooltip" data-placement="top" title="C++静态成员">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/10/16/2020-10-16-自动对象与静态局部对象/" data-toggle="tooltip" data-placement="top" title="自动对象与静态局部对象">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://www.greenday666.xyz" target="_blank">Zzn-Greenday</a></li>
+                    
+                        <li><a href="https://github.com/kasuganosoras/cxk-ball" target="_blank">CXK plays basketball</a></li>
+                    
+                        <li><a href="http://github.com/kelseyhightower/nocode" target="_blank">Nocode</a></li>
+                    
+                        <li><a href="https://github.com/maebert/themostdangerouswritingapp" target="_blank">写作者的噩梦源泉</a></li>
+                    
+                        <li><a href="https://github.com/bestony/logoly" target="_blank">Logoly</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/sonnyshu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6820316356">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/husonny">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Sonny&#39;s Blog 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="http://easy4me.cn">Sonny</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=husonny&repo=husonny.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://easy4me.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="http://easy4me.cn/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
