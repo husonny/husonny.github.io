@@ -13,11 +13,11 @@
 
     <title>
         
-          LeetCode-21.[Easy] Merge Two Sorted Lists - Sonny的博客 | Sonny&#39;s Blog
+          静态函数与虚函数的区别 - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/07/2020-07-07-21-Easy-Merge-Two-Sorted-Lists/">
+    <link rel="canonical" href="http://easy4me.cn/2020/10/17/2020-10-17-静态函数与虚函数的区别/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,16 +162,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Linked List" title="Linked List">Linked List</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
-                    <h1>LeetCode-21.[Easy] Merge Two Sorted Lists</h1>
-                    <h2 class="subheading">[合并两个有序链表] Linked List、迭代、递归</h2>
+                    <h1>静态函数与虚函数的区别</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2020-07-07
+                        2020-10-17
                     </span>
                 </div>
             </div>
@@ -190,20 +188,15 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><code>Difficulty: Easy</code></p>
-<p><strong>（Linked List、迭代、递归)</strong></p>
-<p><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">[21] Merge Two Sorted Lists</a> - 合并两个有序链表</p>
-<p>Merge two sorted linked lists and return it as a new <strong>sorted</strong> list. The new list should be made by splicing together the nodes of the first two lists.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: <span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">1</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span></span><br><span class="line">Output: <span class="number">1</span>-&gt;<span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>-&gt;<span class="number">4</span></span><br></pre></td></tr></table></figure>
+                <p><strong>静态函数在编译的时候就已经确定运行时机,虚函数在运行的时候动态绑定。虚函数因为用了虚函数表机制,调用的时候会增加一次内存开销。</strong></p>
+<h4 id="1-什么是虚函数表？"><a href="#1-什么是虚函数表？" class="headerlink" title="1.什么是虚函数表？"></a>1.什么是虚函数表？</h4><p>虚函数表： 当一个类中包含被virtual 关键字修饰的成员函数时，该成员函数就成为了一个虚函数。头一个含有虚函数的类所实例化出来的对象都拥有同一个虚函数表，在对象中含有一个虚函数指针 *_vptr，该指针指向该类的虚函数表，虚函数表保存的是类中虚函数的地址（一个类可能有多个虚函数）。</p>
+<h4 id="2-虚函数有什么用呢？"><a href="#2-虚函数有什么用呢？" class="headerlink" title="2.虚函数有什么用呢？"></a>2.虚函数有什么用呢？</h4><p>当一个子类继承了一个含有虚函数的基类，并重写了该基类中的一个虚函数，我们就说这两个类构成多态。子类继承基类的同时，基类的虚函数表也被子类继承，不同的是被子类重写的虚函数将会替代原来虚函数表中对应的基类的虚函数的地址。从而基类与子类调用同名的虚函数时，所调用的就不是同一个函数，从而体现了多态和虚函数表的作用。</p>
+<h4 id="3-静态函数与虚函数的区别"><a href="#3-静态函数与虚函数的区别" class="headerlink" title="3.静态函数与虚函数的区别?"></a>3.静态函数与虚函数的区别?</h4><p>我们知道类的静态函数是没有this指针的，调用它时不需要创建对象，通过：类名 ：：函数名（参数）的形式直接调用。静态函数只有唯一的一份，因此它的地址是固定不变的， 所以编译的时候但凡遇到调用该静态函数的时候就知道调用的是哪一个函数，因此说静态函数在编译的时候就已经确定运行时机，而虚函数则不然。</p>
+<p>看下面的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"i am A"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>:</span> <span class="keyword">public</span> A</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"I am B"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A a;</span><br><span class="line">	B b;</span><br><span class="line">	A* pb = &amp;b;</span><br><span class="line">	pb-&gt;fun();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 示例：输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4, 输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p>
-<p>思路：合并两个升序链表，在合并之前需要先创建一个新的链表用于存储处理后的元素。通过比较每个链表对应位置的元素的大小，将小的元素添加到新的链表中，一旦元素被添加到新链表中，则在原来的链表中删除相应的位置，随后再进行比较，直到两个链表中所有元素均添加到新链表中为止。</p>
-<p><strong>其实递归的方法更加简单一些，这里采用的是迭代的方式，更加易于实现。</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建头结点</span></span><br><span class="line">        ListNode *dummy = <span class="keyword">new</span> ListNode(<span class="number">-1</span>);<span class="comment">//动态分配内存，创建一个哑结点</span></span><br><span class="line">        dummy-&gt;next = <span class="literal">nullptr</span>; <span class="comment">//头结点中的指针指向ptrnull</span></span><br><span class="line">        <span class="comment">//dummy始终指向表头，而curr会被用来刷新，加长链表</span></span><br><span class="line">        <span class="comment">//设置头指针curr</span></span><br><span class="line">        ListNode *curr = dummy;</span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="literal">nullptr</span> &amp;&amp; l2 != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(l1-&gt;val &lt; l2-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;next = l1;</span><br><span class="line">                l1 = l1-&gt;next;</span><br><span class="line">                curr = curr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;next = l2;</span><br><span class="line">                l2 = l2-&gt;next;</span><br><span class="line">                curr = curr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(l2 != <span class="literal">nullptr</span>)</span><br><span class="line">            curr-&gt;next = l2;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(l1 != <span class="literal">nullptr</span>)</span><br><span class="line">            curr-&gt;next = l1;</span><br><span class="line">        <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>代码中的dummy实则是一种<strong>哑节点</strong>，顾名思义他不参与到主要代码的逻辑中，这里的亚结点其实就是设置为新链表的头结点，其并不是必须的，头结点的存在完全是为了更加方便的对链表进行操作。参见：<a href="https://easy4me.cn/2020/07/07/2020-07-07-头指针和头结点区别/">头指针和头结点区别</a></p>
-<p>如果我们对表头进行一些操作（如删除），可能会使<strong>表头丢失</strong>，而此时如果有一个节点指向表头，就可以在删除前将节点指向表头的下一位，<strong>通过此表头来寻找剩下的链表元素</strong>。而消除报错指的是我们有时需要定义一个链表，<strong>而将它赋值为nulllptr后进行操作有时会因为没有空间而报错</strong>，这时用哑节点就可以避免这个问题。<br>参见：<a href="https://blog.csdn.net/qq_44860210/article/details/104200124" target="_blank" rel="noopener">leetcode21合并两个有序链表(哑节点)</a></p>
+<p>类A与类B构成多态，创建了 A类指针pb指向 B类对象，当程序编译的时候只对语法等进行检测，该语句没有什么问题，但是编译器此时无法确定调用的是哪一个 fun() 函数，因为类A类B中都含有fun函数，因此只能是在程序运行的时候通过 pb指针查看对象的虚函数表（访问虚函数表就是所谓的访问内存）才能确定该函数的地址，即确定调用的是哪一个函数。这就解释了所说的“<strong>虚函数在运行的时候动态绑定。虚函数因为用了虚函数表机制,调用的时候会增加一次内存开销。</strong>”</p>
+<p>原文链接：<a href="https://blog.csdn.net/lovehang99/article/details/104617908" target="_blank" rel="noopener">CSDN-黎晓舞指-C++ 静态函数与虚函数的区别</a></p>
 
 
                 <hr>
@@ -213,12 +206,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2020/07/08/2020-07-08-83-Easy-Remove-Duplicates-from-Sorted-List/" data-toggle="tooltip" data-placement="top" title="LeetCode-83.[Easy] Remove Duplicates from Sorted List">&larr; Previous Post</a>
+                            <a href="/2020/10/17/2020-10-17-定义函数在main函数执行前先运行/" data-toggle="tooltip" data-placement="top" title="定义函数在main函数执行前先运行">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/07/07/2020-07-07-头指针和头结点区别/" data-toggle="tooltip" data-placement="top" title="头指针和头结点区别">Next Post &rarr;</a>
+                            <a href="/2020/10/17/2020-10-17-final和override说明符/" data-toggle="tooltip" data-placement="top" title="final和override说明符">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -245,9 +238,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Linked List" title="Linked List">Linked List</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
                 </section>

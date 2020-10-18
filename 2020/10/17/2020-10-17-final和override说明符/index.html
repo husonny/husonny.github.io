@@ -13,11 +13,11 @@
 
     <title>
         
-          LeetCode-21.[Easy] Merge Two Sorted Lists - Sonny的博客 | Sonny&#39;s Blog
+          final和override说明符 - Sonny的博客 | Sonny&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="http://easy4me.cn/2020/07/07/2020-07-07-21-Easy-Merge-Two-Sorted-Lists/">
+    <link rel="canonical" href="http://easy4me.cn/2020/10/17/2020-10-17-final和override说明符/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -162,16 +162,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Linked List" title="Linked List">Linked List</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
-                    <h1>LeetCode-21.[Easy] Merge Two Sorted Lists</h1>
-                    <h2 class="subheading">[合并两个有序链表] Linked List、迭代、递归</h2>
+                    <h1>final和override说明符</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Sonny on
-                        2020-07-07
+                        2020-10-17
                     </span>
                 </div>
             </div>
@@ -190,20 +188,15 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><code>Difficulty: Easy</code></p>
-<p><strong>（Linked List、迭代、递归)</strong></p>
-<p><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">[21] Merge Two Sorted Lists</a> - 合并两个有序链表</p>
-<p>Merge two sorted linked lists and return it as a new <strong>sorted</strong> list. The new list should be made by splicing together the nodes of the first two lists.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: <span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">4</span>, <span class="number">1</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span></span><br><span class="line">Output: <span class="number">1</span>-&gt;<span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>-&gt;<span class="number">4</span></span><br></pre></td></tr></table></figure>
+                <p>派生类如果定义了一个函数与基类中虚函数的名字相同但是形参列表不同，这仍是合法行为。编译器会认为新定义的这个函数与基类中原有的函数时相互独立的。这时，派生类的函数并没有覆盖掉基类中的版本。就实际的编程习惯而言，这种申明往往意味着发生了错误，因为我们可能原本希望派生类能覆盖掉积累中的虚函数，但是一不小心就把形参列表给弄错了。</p>
+<p>使用override关键字来说明派生类中的虚函数。这么做的好处是使得程序员的意图更加清晰的同时，让编译器可以为我们发现一些错误。如果使用了override标记了某个函数，但该函数并没有覆盖已存在的虚函数，此时编译器将会报错。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D1</span> :</span> B</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> override</span>;   <span class="comment">//正确：f1与基类中的f1匹配</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(<span class="keyword">int</span>)</span> override</span>;         <span class="comment">//错误：B没有形如f2(int)的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span> override</span>;            <span class="comment">//错误：f3不是虚函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f4</span><span class="params">()</span> override</span>;            <span class="comment">//错误：B没有名为f4的函数</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 示例：输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4, 输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p>
-<p>思路：合并两个升序链表，在合并之前需要先创建一个新的链表用于存储处理后的元素。通过比较每个链表对应位置的元素的大小，将小的元素添加到新的链表中，一旦元素被添加到新链表中，则在原来的链表中删除相应的位置，随后再进行比较，直到两个链表中所有元素均添加到新链表中为止。</p>
-<p><strong>其实递归的方法更加简单一些，这里采用的是迭代的方式，更加易于实现。</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建头结点</span></span><br><span class="line">        ListNode *dummy = <span class="keyword">new</span> ListNode(<span class="number">-1</span>);<span class="comment">//动态分配内存，创建一个哑结点</span></span><br><span class="line">        dummy-&gt;next = <span class="literal">nullptr</span>; <span class="comment">//头结点中的指针指向ptrnull</span></span><br><span class="line">        <span class="comment">//dummy始终指向表头，而curr会被用来刷新，加长链表</span></span><br><span class="line">        <span class="comment">//设置头指针curr</span></span><br><span class="line">        ListNode *curr = dummy;</span><br><span class="line">        <span class="keyword">while</span>(l1 != <span class="literal">nullptr</span> &amp;&amp; l2 != <span class="literal">nullptr</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(l1-&gt;val &lt; l2-&gt;val)</span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;next = l1;</span><br><span class="line">                l1 = l1-&gt;next;</span><br><span class="line">                curr = curr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;next = l2;</span><br><span class="line">                l2 = l2-&gt;next;</span><br><span class="line">                curr = curr-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(l2 != <span class="literal">nullptr</span>)</span><br><span class="line">            curr-&gt;next = l2;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(l1 != <span class="literal">nullptr</span>)</span><br><span class="line">            curr-&gt;next = l1;</span><br><span class="line">        <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>把某个函数指定为final，则之后任何尝试覆盖该函数的操作都将会引发错误。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D2</span> :</span> B</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//从B继承f2()和f3()，覆盖f1(int)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> final</span>;      <span class="comment">//不允许后续的其他类覆盖f1(int)</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D3</span> :</span> D2</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;                     <span class="comment">//正确：覆盖从间接基类B继承而来的f2</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;            <span class="comment">//错误：D2已经将f2声明成final</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>代码中的dummy实则是一种<strong>哑节点</strong>，顾名思义他不参与到主要代码的逻辑中，这里的亚结点其实就是设置为新链表的头结点，其并不是必须的，头结点的存在完全是为了更加方便的对链表进行操作。参见：<a href="https://easy4me.cn/2020/07/07/2020-07-07-头指针和头结点区别/">头指针和头结点区别</a></p>
-<p>如果我们对表头进行一些操作（如删除），可能会使<strong>表头丢失</strong>，而此时如果有一个节点指向表头，就可以在删除前将节点指向表头的下一位，<strong>通过此表头来寻找剩下的链表元素</strong>。而消除报错指的是我们有时需要定义一个链表，<strong>而将它赋值为nulllptr后进行操作有时会因为没有空间而报错</strong>，这时用哑节点就可以避免这个问题。<br>参见：<a href="https://blog.csdn.net/qq_44860210/article/details/104200124" target="_blank" rel="noopener">leetcode21合并两个有序链表(哑节点)</a></p>
+<p><strong>override仅仅用于虚函数。</strong></p>
+<p>参考文献：《C++ primer》第五版</p>
 
 
                 <hr>
@@ -213,12 +206,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2020/07/08/2020-07-08-83-Easy-Remove-Duplicates-from-Sorted-List/" data-toggle="tooltip" data-placement="top" title="LeetCode-83.[Easy] Remove Duplicates from Sorted List">&larr; Previous Post</a>
+                            <a href="/2020/10/17/2020-10-17-静态函数与虚函数的区别/" data-toggle="tooltip" data-placement="top" title="静态函数与虚函数的区别">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/07/07/2020-07-07-头指针和头结点区别/" data-toggle="tooltip" data-placement="top" title="头指针和头结点区别">Next Post &rarr;</a>
+                            <a href="/2020/10/16/2020-10-16-Linux常用命令/" data-toggle="tooltip" data-placement="top" title="Linux常用命令">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -245,9 +238,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
-                        
-                          <a class="tag" href="/tags/#Linked List" title="Linked List">Linked List</a>
+                          <a class="tag" href="/tags/#C++" title="C++">C++</a>
                         
                     </div>
                 </section>
