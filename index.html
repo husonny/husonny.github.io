@@ -94,14 +94,14 @@
 
                         
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">Archives</a>
+                            <a href="/tags/">Tags</a>
                         </li>
                         
                     
@@ -178,6 +178,58 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/2020/10/28/2020-10-28-服务器模型及编程框架/">
+        <h2 class="post-title">
+            服务器模型及编程框架
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            网络应用程序设计模式C/S 模式传统的网络应用设计模式，客户机(client)/服务器(server)模式。需要在通讯两端各自部署客户机和服务器来完成数据通信。
+B/S 模式浏览器()/服务器(server)模式。只需在一端部署服务器，而另外一端使用每台PC 都默认配置的浏览器即可完成数据的传输。
+优缺点C/S 模式优点：
+客户端位于目标主机上可以保证性能，将数据缓存至客户端本地，从而提高数......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sonny on
+        2020-10-28
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2020/10/28/2020-10-28-高级IO函数/">
+        <h2 class="post-title">
+            高级I/O函数
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Linux下常用的I/O函数有open和read，但是在网络编程中较为常见的几个函数大致可以分为以下三类：
+
+用于常见文件描述符的函数，包括pipe、dup/dup2函数
+用于读写数据的函数，包括readv/writev、sendfile、mmap/munmap、splice和tee函数
+用于控制I/O行为和属性的函数，包括fcntl函数
+
+啥叫I/O函数？指的是计算机的输入和输出函数。
+1......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Sonny on
+        2020-10-28
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -361,53 +413,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/2020/10/16/2020-10-16-自动对象与静态局部对象/">
-        <h2 class="post-title">
-            自动对象与静态局部对象
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            1、自动对象默认情况下，局部变量的生命期局限于所在函数的每次执行期间。只有当定义它的函数被调用时才存在的对象称为自动对象。自动对象在每次调用函数时创建和撤销。该类型局部变量存储在栈上，在动态存储区。局部变量所对应的自动对象在函数控制经过变量定义语句时创建。如果在定义时提供了初始化，那么每次创建对象时，对象都会被赋予指定的初值。对于未初始化的内置类型局部变量，其初值不确定。当函数调用时结束，自......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-10-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/2020/10/14/2020-10-14-字节序/">
-        <h2 class="post-title">
-            字节序
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            字节序分为大端字节序和小端字节序。
-大端字节序：整数的高位字节（2331bit）存储在内存的低地址处，低位字节（07bit）存储在内存的高地址处。
-小端字节序：整数的高位字节（2331bit）存储在内存的高地址处，低位字节（07bit）存储在内存的低地址处。
-大端字节序——网络字节序——发送端发送数据
-小端字节序——主机字节序——大多数PC
-12345678内存：高地址           ......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Sonny on
-        2020-10-14
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -447,8 +452,6 @@
                             
                         
                             
-                        
-                            
                             <a href="/tags/#LeetCode" title="LeetCode" rel="16">LeetCode</a>
                             
                         
@@ -467,15 +470,19 @@
                             
                         
                             
+                        
+                            
                             <a href="/tags/#sort" title="sort" rel="4">sort</a>
                             
                         
                             
                         
                             
+                            <a href="/tags/#C++" title="C++" rel="10">C++</a>
+                            
                         
                             
-                            <a href="/tags/#C++" title="C++" rel="10">C++</a>
+                        
                             
                         
                     </div>
